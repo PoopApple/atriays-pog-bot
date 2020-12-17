@@ -79,8 +79,8 @@ async def _help(ctx):
 
     dmembed = discord.Embed(
         title=f'{ctx.author}, Check Your DM', color=0x3fc2c9)
-    await ctx.send(embed=dmembed)
-    await ctx.add_reaction(":ballot_box_with_check:")
+    msg = await ctx.send(embed=dmembed)
+    await msg.add_reaction(u'\u2611')
 
 
 # pog or not pog cmd (pog)
@@ -145,7 +145,13 @@ async def spam(ctx, pingmember: discord.Member, *, numspam=1):
 
 @client.command()
 async def ping(ctx):
-    await ctx.send(f'poggers! this is the ping {round(client.latency * 1000)}ms')
+    dmembed = discord.Embed(
+        title=f'Poggers!! \nThe Ping is {round(client.latency * 1000)}ms', color=0x3fc2c9)
+    msg = await ctx.send(embed=dmembed)
+    await msg.add_reaction(u'\U0001F1F5')
+    await msg.add_reaction(u'\U0001F1F4')
+    await msg.add_reaction(u'\U0001F1F3')
+    await msg.add_reaction(u'\U0001F1EC')
 
 
 @client.command()
