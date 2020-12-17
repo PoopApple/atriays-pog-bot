@@ -36,6 +36,18 @@ client = commands.Bot(command_prefix=prefix,
 
 #todaynow = datetime.now().strftime("%d/%m/%Y  %H:%M")
 
+# Conditions for commands :-
+
+def is_Atriays(ctx):
+    return ctx.author.id == 543718305773387776
+
+def is_Mutant(ctx):
+    return ctx.author.id == 460335920260841482
+
+def is_Nerdy(ctx):
+    return ctx.author.id == 516173155216392193
+
+
 
 # Help cmd (help)
 @client.command(aliases=['help'])
@@ -90,6 +102,7 @@ async def Pog(ctx, *, pog_notpog):
 
 # clear cmd (clear)
 @client.command()
+@commands.check(is_Atriays or is_Mutant or is_Nerdy)
 async def clear(ctx, amount=1):
     await ctx.channel.purge(limit=amount + 1)
     await ctx.send(f'Deleted {amount} message(s)')
