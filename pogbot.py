@@ -80,6 +80,7 @@ async def _help(ctx):
     dmembed = discord.Embed(
         title=f'{ctx.author}, Check Your DM', color=0x3fc2c9)
     await ctx.send(embed=dmembed)
+    await ctx.add_reaction(":ballot_box_with_check:")
 
 
 # pog or not pog cmd (pog)
