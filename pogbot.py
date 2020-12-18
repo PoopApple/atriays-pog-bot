@@ -80,7 +80,7 @@ async def _help(ctx):
     dmembed = discord.Embed(
         title=f'{ctx.author}, Check Your DM', color=0x3fc2c9)
     msg = await ctx.send(embed=dmembed)
-    await msg.add_reaction(u'\u2611')
+    await msg.add_reaction(u'\u2705')
 
 
 # pog or not pog cmd (pog)
