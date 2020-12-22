@@ -248,7 +248,7 @@ async def on_message(message):
                 await message.channel.send(random.choice(his))
         for words in shuts:
             if words == messageContent:
-                await message.channel.send(':regional_indicator_s: :regional_indicator_h: :regional_indicator_u: :regional_indicator_t: \nhttps://tenor.com/view/shut-up-shush-shh-ok-bird-gif-17679708')
+                await message.channel.send(':regional_indicator_s: :regional_indicator_h: :regional_indicator_u: :regional_indicator_t:')
         for words in aht:
             if words == messageContent:
                 await message.channel.send(':regional_indicator_a: :regional_indicator_l: :regional_indicator_l:   :regional_indicator_h: :regional_indicator_a: :regional_indicator_i: :regional_indicator_l:   :regional_indicator_t: :regional_indicator_r: :regional_indicator_i: :regional_indicator_m: :regional_indicator_u: :regional_indicator_n: :regional_indicator_a: :regional_indicator_t: :regional_indicator_i:')
