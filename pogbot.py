@@ -265,7 +265,7 @@ async def on_message(message):
     #    for string in messageMentions:
     #        if any('543718305773387776' in string ):
     #            await message.channel.send('pinged')
-        """if len(messageMentions) > 0 :
+        if len(messageMentions) > 0 :
             l = len(messageMentions) - 1
             print(l)
             while (l > -1):
@@ -274,7 +274,7 @@ async def on_message(message):
                     await message.channel.send(f"**Don't** Ping him, U Poopi {message.author.mention} :poop:" )
                     l= l - 1
                 else:
-                    l = l-1"""
+                    l = l-1
 
             #mention_list = ", ".join(mentions[:-1]) + " and " + mentions[-1]
             #if any('543718305773387776' in string for string in messageMentions[0]):
