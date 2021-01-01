@@ -2,4 +2,4 @@ discord
 pandas
 pillow
 requests
-from io
+io
