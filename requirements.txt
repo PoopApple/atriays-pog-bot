@@ -2,4 +2,3 @@ discord
 pandas
 pillow
 requests
-io
