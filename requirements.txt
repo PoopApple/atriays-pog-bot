@@ -1,2 +1,5 @@
 discord
 pandas
+pillow
+requests
+from io import BytesIO
