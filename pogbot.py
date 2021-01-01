@@ -311,4 +311,4 @@ async def disable(ctx, extension):
 
 
 
-client.run('Nzc5MDY4NzE4NDg2NTE5ODI4.X7bKSA.6hPTbUu8X6gYdp63FJ6qelZ-FcM')
+client.run('Nzc5MjI1NDU4MTU5Mzg2NjI0.X7dcQg.W-3EtcJFpzWCBYjYLfwq676EwZw')
