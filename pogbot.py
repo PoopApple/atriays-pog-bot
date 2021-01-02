@@ -265,6 +265,11 @@ async def cowsay(ctx, *, cowsaylol = "Y is this empty ;-;"):
     await ctx.send(msg)
 
 
+@client.command()
+async def botinvite(ctx):
+    await ctx.send("Invite Atriays's Pog Bot: http://bit.ly/3n3PmGV")
+
+
 
 # .----------------.  .----------------.  .----------------.  .-----------------. .----------------.  .----------------.
 # | .--------------. || .--------------. || .--------------. || .--------------. || .--------------. || .--------------. |
