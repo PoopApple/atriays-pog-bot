@@ -119,8 +119,8 @@ async def Pog(ctx, *, pog_notpog):
 
 
 # clear cmd (clear)
-@client.command()
-@commands.check(is_Atriays or is_Mutant or is_Nerdy)
+@client.command(alias = 'purge')
+@commands.check(is_Atriays or is_Mutant or is_Nerdy or has_permissions(administrator=True))
 async def clear(ctx, amount=1):
     await ctx.channel.purge(limit=amount + 1)
     await ctx.send(f'Deleted {amount} message(s)', delete_after = 3)
