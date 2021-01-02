@@ -9,6 +9,11 @@ ping
 kuku
 8ball
 """
+
+token_file = open("token.txt", 'r')
+TOKEN = token_file.read()
+token_file.close()
+
 owner ={
 'username' : 'Atriays',
 'discriminator' : '0001',
@@ -133,7 +138,7 @@ async def clear(ctx, amount=1):
 
 # repeat cmd
 @client.command()
-async def repeat(ctx, numrepeat=1, *, repeatthis):
+async def repeat(ctx, numrepeat=2, *, repeatthis):
     if (numrepeat > -1 and numrepeat < 101):
         for numrepeat in range(1, numrepeat+1):
             await ctx.send(repeatthis)
@@ -347,4 +352,4 @@ for unload in unload_cog:
 
 
 
-client.run('Nzc5MjI1NDU4MTU5Mzg2NjI0.X7dcQg.W-3EtcJFpzWCBYjYLfwq676EwZw')
+client.run(TOKEN)
