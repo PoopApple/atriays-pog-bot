@@ -42,8 +42,6 @@ from io import  BytesIO
 #import urllib3 as urllib
 
 
-
-
 prefix = [".", '<@!779068718486519828> ']  # Prefix
 
 # Permission for intents
@@ -246,6 +244,25 @@ async def createinvite(ctx,id : int = None ):
         await ctx.author.send(f"Here's the invite link of {guild}: {link}")
 
 
+
+
+@client.command()
+async def cowsay(ctx, *, cowsaylol = "Y is this empty ;-;"):
+    if len(cowsaylol) > 95:
+
+        underscore = '_'*95
+        dash = '-'*95
+
+        msg = f"```\n _{underscore}_\n <{cowsaylol}>\n-{dash}-\n        \   ^__^\n         \  (oo)\_______\n            (__)\       )\/\\ \n                ||----w |\n                ||     ||\n```"
+
+    else:
+
+        underscore = '_'*len(cowsaylol)
+        dash = '-'*len(cowsaylol)
+
+        msg = f"```\n _{underscore}_\n < {cowsaylol} >\n-{dash}-\n        \   ^__^\n         \  (oo)\_______\n            (__)\       )\/\\ \n                ||----w |\n                ||     ||\n```"
+
+    await ctx.send(msg)
 
 
 
