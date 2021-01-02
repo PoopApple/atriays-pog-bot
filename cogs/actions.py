@@ -57,7 +57,7 @@ class actions(commands.Cog):
 
             #pasting the pfp on the slap bg
             batman_opened.paste(pfp_opened, (290,215))
-            batman_opened = batman_opened.resize((round(batman_opened.size[0]*0.), round(batman_opened.size[1]*0.5)))
+            batman_opened = batman_opened.resize((round(batman_opened.size[0]*0.5), round(batman_opened.size[1]*0.5)))
 
             #batman_opened.save('slap.png')
 

@@ -239,18 +239,18 @@ async def on_ready():
 
 
 
+"""
+@client.event
+async def on_message(message):
+    message.author: discord.member
+    if message.author == client.user:
+        return
 
-#@client.event
-#async def on_message(message):
-#    message.author: discord.member
-#    if message.author == client.user:
-#        return
-#
-#    messageContent = message.content
-#    messageMentions = message.mentions
-#    if len(messageContent) > 0:
-#        await message.channel.send(f'```{messageContent}```')
-
+    messageContent = message.content
+    messageMentions = message.mentions
+    if len(messageContent) > 0:
+        await message.channel.send(f'```{messageContent}```')
+"""
 
 
 
