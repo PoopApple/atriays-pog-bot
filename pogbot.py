@@ -253,14 +253,14 @@ async def cowsay(ctx, *, cowsaylol = "Y is this empty ;-;"):
         underscore = '_'*95
         dash = '-'*95
 
-        msg = f"```\n _{underscore}_\n <{cowsaylol}>\n-{dash}-\n        \   ^__^\n         \  (oo)\_______\n            (__)\       )\/\\ \n                ||----w |\n                ||     ||\n```"
+        msg = f"```\n_{underscore}_\n<{cowsaylol}>\n-{dash}-\n        \   ^__^\n         \  (oo)\_______\n            (__)\       )\/\\ \n                ||----w |\n                ||     ||\n```"
 
     else:
 
         underscore = '_'*len(cowsaylol)
         dash = '-'*len(cowsaylol)
 
-        msg = f"```\n _{underscore}_\n < {cowsaylol} >\n-{dash}-\n        \   ^__^\n         \  (oo)\_______\n            (__)\       )\/\\ \n                ||----w |\n                ||     ||\n```"
+        msg = f"```\n_{underscore}_\n< {cowsaylol} >\n-{dash}-\n        \   ^__^\n         \  (oo)\_______\n            (__)\       )\/\\ \n                ||----w |\n                ||     ||\n```"
 
     await ctx.send(msg)
 
