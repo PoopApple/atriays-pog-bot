@@ -248,10 +248,10 @@ async def createinvite(ctx,id : int = None ):
 
 @client.command()
 async def cowsay(ctx, *, cowsaylol = "Y is this empty ;-;"):
-    if len(cowsaylol) > 95:
+    if len(cowsaylol) > 93:
 
-        underscore = '_'*95
-        dash = '-'*95
+        underscore = '_'*93
+        dash = '-'*93
 
         msg = f"```\n_{underscore}_\n<{cowsaylol}>\n-{dash}-\n        \   ^__^\n         \  (oo)\_______\n            (__)\       )\/\\ \n                ||----w |\n                ||     ||\n```"
 
@@ -260,7 +260,7 @@ async def cowsay(ctx, *, cowsaylol = "Y is this empty ;-;"):
         underscore = '_'*len(cowsaylol)
         dash = '-'*len(cowsaylol)
 
-        msg = f"```\n_{underscore}_\n< {cowsaylol} >\n-{dash}-\n        \   ^__^\n         \  (oo)\_______\n            (__)\       )\/\\ \n                ||----w |\n                ||     ||\n```"
+        msg = f"```\n_{underscore}___\n< {cowsaylol} >\n-{dash}---\n        \   ^__^\n         \  (oo)\_______\n            (__)\       )\/\\ \n                ||----w |\n                ||     ||\n```"
 
     await ctx.send(msg)
 
