@@ -204,6 +204,41 @@ async def _8ball(ctx, *, question):
 
 
 
+@client.command()
+@commands.check(is_Atriays or is_Mutant or is_Nerdy)
+async def guilds(ctx):
+
+    guild_embed = discord.Embed(title = "Atriays's Pog Bot is in these Guilds: ", color = 0xFF2424)
+
+    for guild in client.guilds:
+        guild_embed.add_field(
+            name=f"Name: {guild}", value=f'ID: {guild.id}', inline=True)
+
+    await ctx.author.send(embed=guild_embed)
+
+
+
+
+
+
+@client.command()
+@commands.check(is_Atriays or is_Mutant or is_Nerdy)
+async def createinvite(ctx,id : int = None ):
+
+    if id == None:
+        id = ctx.guild.id
+
+        guild = client.get_guild(id)
+        channel = guild.text_channels[0]
+
+        link = await channel.create_invite(max_uses=1)
+        await ctx.author.send(f"Here's the invite link of {guild}: {link}")
+    else:
+        guild = client.get_guild(id)
+        channel = guild.text_channels[0]
+
+        link = await channel.create_invite(max_uses=1)
+        await ctx.author.send(f"Here's the invite link of {guild}: {link}")
 
 
 
