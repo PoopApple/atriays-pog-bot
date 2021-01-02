@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 from PIL import Image
 import requests
-from io import  BytesIO
+from io import BytesIO
 
 class actions(commands.Cog):
     def __init__(self, client):
@@ -13,7 +13,6 @@ class actions(commands.Cog):
         print('actions cog is working')
 
 
-    batman = 'https://cdn.discordapp.com/attachments/792026292781973515/793810852700094475/Batman-Slapping-Robin-Meme-Explained.png'
     @commands.command()
     async def slap(self, ctx, user : discord.Member = None):
         batman = 'https://cdn.discordapp.com/attachments/792026292781973515/793810852700094475/Batman-Slapping-Robin-Meme-Explained.png'
@@ -33,7 +32,7 @@ class actions(commands.Cog):
 
             #pasting the pfp on the slap bg
             batman_opened.paste(pfp_opened, (290,215))
-            batman_opened = batman_opened.resize((round(batman_opened.size[0]*0.), round(batman_opened.size[1]*0.5)))
+            batman_opened = batman_opened.resize((round(batman_opened.size[0]*0.5), round(batman_opened.size[1]*0.5)))
 
             #batman_opened.save('slap.png')
 

@@ -47,20 +47,20 @@ intents = discord.Intents(messages=True, guilds=True,
 
 # setting the discord bot thinga majik
 client = commands.Bot(command_prefix=prefix,
-                      intents=intents, help_command=None)
+                      intents=intents, help_command=None) #, help_command=None
 
 #todaynow = datetime.now().strftime("%d/%m/%Y  %H:%M")
 
 # Conditions for commands :-
 
 def is_Atriays(ctx):
-    return ctx.author.id == 543718305773387776
+    return ctx.author.id == 543718305773387776;
 
 def is_Mutant(ctx):
-    return ctx.author.id == 460335920260841482
+    return ctx.author.id == 460335920260841482;
 
 def is_Nerdy(ctx):
-    return ctx.author.id == 516173155216392193
+    return ctx.author.id == 516173155216392193;
 
 
 
@@ -227,9 +227,7 @@ async def _8ball(ctx, *, question):
 async def on_ready():
     print('bot is poopi ready man')
     await client.change_presence(status=discord.Status.idle, activity=discord.Game("Atriays's Pog Bot"))
-    for filename in os.listdir('./cogs'):
-        if filename.endswith('.py'):
-            client.load_extension(f'cogs.{filename[:-3]}')
+
 
 #@client.event
 #async def on_member_join(member):
@@ -239,25 +237,19 @@ async def on_ready():
 #async def on_member_remove(member):
 #    print(f'{member} left /nNotPOG ;-;')"""
 
-# on msg - just send a msg if a string is present in a text
-"""
-his = ['hi', 'hello', 'hlo', 'Hi', 'Hello', 'Hlo', 'yo', 'Yo']
-shuts = ['shut', 'SHUT', 'Shut']
-aht = ['all hail trimunati', 'ALL HAIL TRIMUNATI', 'aht' , 'Aht']
-badpings = [str(owner.get('id')),'516173155216392193']  # ids of bad pings
-dont = ['dont', 'Dont', "Don't", "don't"]
 
 
-@client.event
-async def on_message(message):
-    message.author: discord.member
-    if message.author == client.user:
-        return
 
-    messageContent = message.content
-    messageMentions = message.mentions
-    if len(messageContent) > 0:
-        await message.channel.send(f'```{messageContent}```')
+#@client.event
+#async def on_message(message):
+#    message.author: discord.member
+#    if message.author == client.user:
+#        return
+#
+#    messageContent = message.content
+#    messageMentions = message.mentions
+#    if len(messageContent) > 0:
+#        await message.channel.send(f'```{messageContent}```')
 
 
 
@@ -266,8 +258,8 @@ async def on_message(message):
 
 
 
-        await client.process_commands(message)
-"""
+#        await client.process_commands(message)
+
 
 # .----------------.  .----------------.  .----------------.  .----------------.  .----------------.  .----------------.  .----------------.  .----------------.  .----------------.
 # | .--------------. || .--------------. || .--------------. || .--------------. || .--------------. || .--------------. || .--------------. || .--------------. || .--------------. |
@@ -297,7 +289,9 @@ async def shutdown(ctx):
 
 
 # Cog Stuff
-
+unload_cog = ['cogs.callouts',
+              'cogs.badping'
+                ]
 
 @client.command()
 async def enable(ctx, extension):
@@ -308,6 +302,13 @@ async def enable(ctx, extension):
 async def disable(ctx, extension):
     client.unload_extension(f'cogs.{extension}')
     await ctx.send(f'Unloaded {extension}')
+
+for filename in os.listdir('./cogs'):
+    if filename.endswith('.py'):
+        client.load_extension(f'cogs.{filename[:-3]}')
+
+for unload in unload_cog:
+    client.unload_extension(unload)
 
 
 

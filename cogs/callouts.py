@@ -37,7 +37,7 @@ class callouts(commands.Cog):
             for words in dont:
                 if words == messageContent:
                     await message.channel.send(':regional_indicator_d: :regional_indicator_o: :regional_indicator_n: :regional_indicator_t:')
-            await self.client.process_commands(message)
+            
 
 
 def setup(client):
