@@ -4,4 +4,3 @@ pillow
 requests
 youtube_search_python
 youtube_dl
-ctypes
