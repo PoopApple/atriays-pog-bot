@@ -1,27 +1,41 @@
 """
 cmds :-
-help
-cleared
-repeat
-spam
-shut
-ping
-kuku
-8ball
+actions:
+  slap
+​No Category:
+  Pog
+  _8ball
+  adinub
+  botinvite
+  clear
+  cowsay
+  createinvite
+  disable
+  enable
+  guilds
+  help   
+  ping
+  repeat
+  shutdown
+  spam
+
 """
 
 token_file = open("token.txt", 'r')
 TOKEN = token_file.read()
 token_file.close()
 
+# owner.get('name') ;-;
 owner ={
-'username' : 'Atriays',
-'discriminator' : '0001',
+'name' : 'Atriays',
+'hash' : '2984',
 'id' : 543718305773387776 }
 
-#Libraries and stuff
+#LIBRARIES
 import discord
 from discord.ext import commands
+from discord.utils import get
+
 from discord import member
 
 import datetime
@@ -38,24 +52,29 @@ from PIL import Image
 
 import requests
 from io import  BytesIO
-#from urllib.request import urlopen
-#import urllib3 as urllib
+
+from youtube_search import YoutubeSearch
+import youtube_dl
+import asyncio
+
+#---------------------------------------------------------------------------------#
 
 
-prefix = [".", '<@!779068718486519828> ']  # Prefix
+# Prefix
+prefix = [".", '<@!779225458159386624> ']
 
 # Permission for intents
 intents = discord.Intents(messages=True, guilds=True,
                           reactions=True, members=True, presences=True)
 
 # setting the discord bot thinga majik
-client = commands.Bot(command_prefix=prefix,
-                      intents=intents, help_command=None) #, help_command=None
+client = commands.Bot(command_prefix= prefix,
+                      intents=intents) #, help_command=None
 
 #todaynow = datetime.now().strftime("%d/%m/%Y  %H:%M")
 
 # Conditions for commands :-
-
+# example code ;-; - @commands.check(is_Atriays or is_Mutant or is_Nerdy or has_permissions(administrator=True))
 def is_Atriays(ctx):
     return ctx.author.id == 543718305773387776;
 
@@ -66,7 +85,7 @@ def is_Nerdy(ctx):
     return ctx.author.id == 516173155216392193;
 
 
-
+"""
 # Help cmd (help)
 @client.command(aliases=['help'])
 async def _help(ctx):
@@ -100,7 +119,7 @@ async def _help(ctx):
     dmembed = discord.Embed(
         title=f'{ctx.author}, Check Your DM', color=0x3fc2c9)
     msg = await ctx.send(embed=dmembed)
-    await msg.add_reaction(u'\u2705')
+    await msg.add_reaction(u'\u2705')"""
 
 
 # pog or not pog cmd (pog)
@@ -126,18 +145,20 @@ async def Pog(ctx, *, pog_notpog):
 @commands.check(is_Atriays or is_Mutant or is_Nerdy or has_permissions(administrator=True))
 async def clear(ctx, amount=1):
     await ctx.channel.purge(limit=amount + 1)
-    await ctx.send(f'Deleted {amount} message(s)', delete_after = 3)
+    await ctx.send(f'Deleted {amount} message(s)', delete_after = 1.7)
+
     print(f'{ctx.author} cleared {amount} msg(s)')
-    df = pd.read_csv("C:/Users/aryan/OneDrive/Desktop/discord/bot files/output/output.csv", index_col=0)
-    df = df.append({'Log': f'{ctx.author} cleared {amount} message(s) on {datetime.now().strftime("%d/%m/%Y  %H:%M")}'},ignore_index=True)  # , {'Cleared' : f'{amount}'} , {'User' : f'{ctx.author}'}
-    df.to_csv('C:/Users/aryan/OneDrive/Desktop/discord/bot files/output/output.csv')
+
+    df = pd.read_csv(r"./output/output.csv" , index_col = 0)
+    df = df.append({'guild_id' : f'{ctx.guild.id}' , 'guild_name' : ctx.guild , 'user_id' : f'{ctx.author.id}' , 'user_name' : ctx.author , 'numb_msgs_del_requested' : amount , 'date-time' : datetime.now().strftime("%d/%m/%Y  %H:%M")} , ignore_index=True)
+    df.to_csv(r'./output/output.csv' , index = False)
 
 
 
 # repeat cmd
 @client.command()
 async def repeat(ctx, numrepeat=2, *, repeatthis):
-    if (numrepeat > -1 and numrepeat < 101):
+    if (numrepeat >= 1 and numrepeat <= 30):
         for numrepeat in range(1, numrepeat+1):
             await ctx.send(repeatthis)
             numrepeat = numrepeat - 1
@@ -148,7 +169,7 @@ async def repeat(ctx, numrepeat=2, *, repeatthis):
 # spam cmd
 @client.command()
 async def spam(ctx, numspam=2, * , pingmember: discord.Member):
-    if (numspam > -1 and numspam < 6):
+    if (numspam >= 1 and numspam <= 5):
         for numspam in range(1, numspam+1):
             await ctx.send(pingmember.mention)
             numspam = numspam - 1
@@ -163,8 +184,6 @@ async def ping(ctx):
     await msg.add_reaction(u'\U0001F1F4')
     await msg.add_reaction(u'\U0001F1F3')
     await msg.add_reaction(u'\U0001F1EC')
-
-testdict = { 'first' : 'lol' , 'second' : 'oks' }
 
 
 @client.command()
@@ -270,7 +289,32 @@ async def botinvite(ctx):
     await ctx.send("Invite Atriays's Pog Bot: http://bit.ly/3n3PmGV")
 
 
+#MUSIC
 
+MUSIC_COLOUR = 0x78f0b4
+"""
+#results = YoutubeSearch(search, max_results=10).to_dict()
+class YTDLSource(discord.PCMVolumeTransformer):
+    def __init__(self, source, *, data, volume=0.5):
+        super().__init__(source, volume)
+
+        self.data = data
+
+        self.title = data.get('title')
+        self.url = data.get('url')
+
+    @classmethod
+    async def from_url(cls, url, *, loop=None, stream=False):
+        loop = loop or asyncio.get_event_loop()
+        data = await loop.run_in_executor(None, lambda: ytdl.extract_info(url, download=not stream))
+
+        if 'entries' in data:
+            # take first item from a playlist
+            data = data['entries'][0]
+
+        filename = data['url'] if stream else ytdl.prepare_filename(data)
+        return cls(discord.FFmpegPCMAudio(filename, **ffmpeg_options), data=data)
+"""
 # .----------------.  .----------------.  .----------------.  .-----------------. .----------------.  .----------------.
 # | .--------------. || .--------------. || .--------------. || .--------------. || .--------------. || .--------------. |
 # | |  _________   | || | ____   ____  | || |  _________   | || | ____  _____  | || |  _________   | || |    _______   | |
@@ -288,6 +332,7 @@ async def botinvite(ctx):
 @client.event
 async def on_ready():
     print('bot is poopi ready man')
+    print(print('Logged in as:\n{0.user.name}\n{0.user.id}'.format(client)))
     await client.change_presence(status=discord.Status.idle, activity=discord.Game("Atriays's Pog Bot"))
 
 
@@ -315,14 +360,6 @@ async def on_message(message):
 """
 
 
-
-
-
-
-
-#        await client.process_commands(message)
-
-
 # .----------------.  .----------------.  .----------------.  .----------------.  .----------------.  .----------------.  .----------------.  .----------------.  .----------------.
 # | .--------------. || .--------------. || .--------------. || .--------------. || .--------------. || .--------------. || .--------------. || .--------------. || .--------------. |
 # | |  ________    | || |     _____    | || |    _______   | || |     ______   | || |      __      | || |  _______     | || |  ________    | || |  _________   | || |  ________    | |
@@ -336,8 +373,6 @@ async def on_message(message):
 #'----------------'  '----------------'  '----------------'  '----------------'  '----------------'  '----------------'  '----------------'  '----------------'  '----------------'
 
 
-
-#;-;
 
 
 # Important stuff
