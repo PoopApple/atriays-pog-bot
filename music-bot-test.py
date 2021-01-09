@@ -12,6 +12,11 @@ token_file.close()
 import ctypes
 import ctypes.util
 
+
+if not discord.opus.is_loaded():
+    discord.opus.load_opus('libopus.so')
+discord.opus.load_opus()
+
 print("ctypes - Find opus:")
 a = ctypes.util.find_library('opus')
 print(a)
