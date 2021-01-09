@@ -1,2 +1,2 @@
-worker: python pogbot.py
-worker: python music-bot-test.py
+mainworker: python pogbot.py
+musicworker: python music-bot-test.py
