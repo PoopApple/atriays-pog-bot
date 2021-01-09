@@ -2,5 +2,5 @@ discord.py[voice]
 pandas
 pillow
 requests
-youtube_search_python
+youtube_search
 youtube_dl
