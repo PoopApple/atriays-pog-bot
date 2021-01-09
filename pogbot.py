@@ -13,7 +13,7 @@ actions:
   disable
   enable
   guilds
-  help   
+  help
   ping
   repeat
   shutdown
@@ -332,7 +332,8 @@ class YTDLSource(discord.PCMVolumeTransformer):
 @client.event
 async def on_ready():
     print('bot is poopi ready man')
-    print(print('Logged in as:\n{0.user.name}\n{0.user.id}'.format(client)))
+    print('Logged in as {0} ({0.id})'.format(client.user))
+    print('------')
     await client.change_presence(status=discord.Status.idle, activity=discord.Game("Atriays's Pog Bot"))
 
 

@@ -5,6 +5,10 @@ import youtube_dl
 
 from discord.ext import commands
 
+token_file = open("token.txt", 'r')
+TOKEN = token_file.read()
+token_file.close()
+
 # Suppress noise about console usage from errors
 youtube_dl.utils.bug_reports_message = lambda: ''
 
@@ -24,7 +28,7 @@ ytdl_format_options = {
 }
 
 ffmpeg_options = {
-    'options': '-vn'
+    'options': '-vn' , 'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5'
 }
 
 ytdl = youtube_dl.YoutubeDL(ytdl_format_options)
@@ -123,13 +127,14 @@ class Music(commands.Cog):
         elif ctx.voice_client.is_playing():
             ctx.voice_client.stop()
 
-bot = commands.Bot(command_prefix=commands.when_mentioned_or("!"),
+bot = commands.Bot(command_prefix=commands.when_mentioned_or("./"),
                    description='Relatively simple music bot example')
 
 @bot.event
 async def on_ready():
     print('Logged in as {0} ({0.id})'.format(bot.user))
+    print('music-bot')
     print('------')
 
 bot.add_cog(Music(bot))
-bot.run('Nzc5MjI1NDU4MTU5Mzg2NjI0.X7dcQg.O1tPc_J35kBXy8sz9THqicRaBGc')
+bot.run(TOKEN)
