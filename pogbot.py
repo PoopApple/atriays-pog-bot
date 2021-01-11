@@ -69,7 +69,7 @@ intents = discord.Intents(messages=True, guilds=True,
 
 # setting the discord bot thinga majik
 client = commands.Bot(command_prefix= prefix,
-                      intents=intents) #, help_command=None
+                      intents=intents , help_command=None) #, help_command=None
 
 #todaynow = datetime.now().strftime("%d/%m/%Y  %H:%M")
 
@@ -85,7 +85,7 @@ def is_Nerdy(ctx):
     return ctx.author.id == 516173155216392193;
 
 
-"""
+
 # Help cmd (help)
 @client.command(aliases=['help'])
 async def _help(ctx):
@@ -119,7 +119,7 @@ async def _help(ctx):
     dmembed = discord.Embed(
         title=f'{ctx.author}, Check Your DM', color=0x3fc2c9)
     msg = await ctx.send(embed=dmembed)
-    await msg.add_reaction(u'\u2705')"""
+    await msg.add_reaction(u'\u2705')
 
 
 # pog or not pog cmd (pog)
