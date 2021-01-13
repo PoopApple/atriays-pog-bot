@@ -1,14 +1,34 @@
-{
-  "Date\/Time": {
-    "0": "23\/11\/2020  20:53",
-    "1": "23\/11\/2020  20:53"
-  },
-  "Cleared": {
-    "0": "1",
-    "1": "2"
-  },
-  "User": {
-    "0": "Atriays#5462",
-    "1": "Atriays#5462"
-  }
-}
+[
+    {
+        "guild_id": "735754185479422022",
+        "guild_name": "TRIMUNATI \ud83d\udc41\ud83d\udc44\ud83d\udc41",
+        "user_id": "543718305773387776",
+        "user_name": "Atriays#2984",
+        "numb_msgs_del_requested": "1",
+        "date-time": "13/01/2021 | 16:45"
+    },
+    {
+        "guild_id": "735754185479422022",
+        "guild_name": "TRIMUNATI \ud83d\udc41\ud83d\udc44\ud83d\udc41",
+        "user_id": "543718305773387776",
+        "user_name": "Atriays#2984",
+        "numb_msgs_del_requested": "1",
+        "date-time": "13/01/2021 | 16:47"
+    },
+    {
+        "guild_id": "735754185479422022",
+        "guild_name": "TRIMUNATI \ud83d\udc41\ud83d\udc44\ud83d\udc41",
+        "user_id": "543718305773387776",
+        "user_name": "Atriays#2984",
+        "numb_msgs_del_requested": "2",
+        "date-time": "13/01/2021 | 17:25"
+    },
+    {
+        "guild_id": "735754185479422022",
+        "guild_name": "TRIMUNATI \ud83d\udc41\ud83d\udc44\ud83d\udc41",
+        "user_id": "543718305773387776",
+        "user_name": "Atriays#2984",
+        "numb_msgs_del_requested": "1",
+        "date-time": "13/01/2021 | 17:26"
+    }
+]

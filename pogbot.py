@@ -45,7 +45,8 @@ from datetime import datetime
 import random
 from random import choice
 
-import pandas as pd
+#import pandas as pd
+import json
 
 import os
 
@@ -62,7 +63,7 @@ import asyncio
 
 
 # Prefix
-prefix = [".", '<@!779225458159386624> ']
+prefix = ["..", '<@!779225458159386624> ']
 
 # Permission for intents
 intents = discord.Intents(messages=True, guilds=True,
@@ -156,9 +157,29 @@ async def clear(ctx, amount=1):
 
     print(f'{ctx.author} cleared {amount} msg(s)')
 
-    df = pd.read_csv(r"./output/output.csv" , index_col = 0)
-    df = df.append({'guild_id' : f'{ctx.guild.id}' , 'guild_name' : ctx.guild , 'user_id' : f'{ctx.author.id}' , 'user_name' : ctx.author , 'numb_msgs_del_requested' : amount , 'date-time' : datetime.now().strftime("%d/%m/%Y  %H:%M")} , ignore_index=True)
-    df.to_csv(r'./output/output.csv' , index = False)
+    data = json.load(open('./output/output.json'))
+
+    # convert data to list if not
+    if type(data) is dict:
+        log_list = [data]
+    else:
+        log_list = data
+
+    # append new item to data lit
+    log_list.append(
+    {
+      "guild_id": str(f"{ctx.guild.id}"),
+      "guild": str(f'{ctx.guild}'),
+      "user_id": str(f"{ctx.author.id}"),
+      "user": str(f'{ctx.author}'),
+      "msgs_del": str(f'{amount}'),
+      "date-time": str(datetime.now().strftime("%d/%m/%Y | %H:%M"))
+    }
+    )
+
+    # write list to file
+    with open('./output/output.json', 'w') as outfile:
+        json.dump(log_list, outfile , indent = 4)
 
 
 
