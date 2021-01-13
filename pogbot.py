@@ -25,6 +25,7 @@ token_file = open("token.txt", 'r')
 TOKEN = token_file.read()
 token_file.close()
 
+
 # owner.get('name') ;-;
 owner ={
 'name' : 'Atriays',
@@ -144,8 +145,14 @@ async def Pog(ctx, *, pog_notpog):
 @client.command(aliases = ['purge'])
 @commands.check(is_Atriays or is_Mutant or is_Nerdy or has_permissions(administrator=True))
 async def clear(ctx, amount=1):
-    await ctx.channel.purge(limit=amount + 1)
-    await ctx.send(f'Deleted {amount} message(s)', delete_after = 1.7)
+    await ctx.message.delete()
+    #await str(cleared_msgs[0])[12:30]).delete()
+
+
+    cleared_msgs = await ctx.channel.purge(limit=amount)
+
+    purge_embed = discord.Embed(title = f'Deleted {amount} message(s)' , color = 0x3fc2c9)
+    await ctx.send(embed = purge_embed , delete_after = 1.7)
 
     print(f'{ctx.author} cleared {amount} msg(s)')
 
