@@ -63,7 +63,7 @@ import asyncio
 
 
 # Prefix
-prefix = ["..", '<@!779225458159386624> ']
+prefix = [".", '<@!779225458159386624> ']
 
 # Permission for intents
 intents = discord.Intents(messages=True, guilds=True,
