@@ -1,6 +1,5 @@
-discord.py[voice]
+discord.py
 pandas
 pillow
 requests
-youtube_search
-youtube_dl
+

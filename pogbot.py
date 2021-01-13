@@ -54,8 +54,8 @@ from PIL import Image
 import requests
 from io import  BytesIO
 
-from youtube_search import YoutubeSearch
-import youtube_dl
+#from youtube_search import YoutubeSearch
+#import youtube_dl
 import asyncio
 
 #---------------------------------------------------------------------------------#
