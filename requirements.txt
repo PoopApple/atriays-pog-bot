@@ -2,5 +2,6 @@ discord.py
 pandas
 pillow
 flask
+gunicorn
 requests
 

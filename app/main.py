@@ -23,6 +23,3 @@ def log():
 @app.route(f'/test/<lol>')
 def lol(lol):
     return f'text goo brrrrrrrr \n<h1>{lol}</h1>'
-
-if __name__ == "__main__":
-    app.run(debug=True)
