@@ -59,11 +59,25 @@ from io import  BytesIO
 #import youtube_dl
 import asyncio
 
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import db
+
+#---------------------------------------------------------------------------------#
+#FIREBASE
+
+cred = credentials.Certificate('./test-3918a-firebase-adminsdk-wtefn-abb1c62607.json')
+
+# Initialize the app with a service account
+firebase_admin.initialize_app(cred, {
+    'databaseURL': 'https://test-3918a.firebaseio.com/'
+})
+
 #---------------------------------------------------------------------------------#
 
 
 # Prefix
-prefix = [".", '<@!779225458159386624> ']
+prefix = ["..", '<@!779225458159386624> ']
 
 # Permission for intents
 intents = discord.Intents(messages=True, guilds=True,
@@ -157,31 +171,62 @@ async def clear(ctx, amount=1):
 
     print(f'{ctx.author} cleared {amount} msg(s)')
 
-    data = json.load(open('./output/output.json'))
 
-    # convert data to list if not
-    if type(data) is dict:
-        log_list = [data]
-    else:
-        log_list = data
 
-    # append new item to data lit
-    log_list.append(
-    {
-      "guild_id": str(f"{ctx.guild.id}"),
-      "guild": str(f'{ctx.guild}'),
-      "user_id": str(f"{ctx.author.id}"),
-      "user": str(f'{ctx.author}'),
-      "msgs_del": str(f'{amount}'),
-      "date-time": str(datetime.now().strftime("%d/%m/%Y | %H:%M"))
-    }
+
+    ref = db.reference(f'log/{str(ctx.guild.id)}')
+    # Generate a reference to a location
+    emp_ref = ref.push(
+        {
+        'guild' : f'{str(ctx.author.id)}',
+        'msgs_del': f'{str(amount)}',
+        'date_time': f'{str(datetime.now().strftime("%d/%m/%Y | %H:%M"))}'
+        }
     )
 
-    # write list to file
-    with open('./output/output.json', 'w') as outfile:
-        json.dump(log_list, outfile , indent = 4)
 
 
+    """    data = json.load(open('./output/output.json'))
+
+        # convert data to list if not
+        if type(data) is dict:
+            log_list = [data]
+        else:
+            log_list = data
+
+        # append new item to data lit
+        log_list.append(
+        {
+          "guild_id": str(f"{ctx.guild.id}"),
+          "guild": str(f'{ctx.guild}'),
+          "user_id": str(f"{ctx.author.id}"),
+          "user": str(f'{ctx.author}'),
+          "msgs_del": str(f'{amount}'),
+          "date-time": str(datetime.now().strftime("%d/%m/%Y | %H:%M"))
+        }
+        )
+
+        # write list to file
+        with open('./output/output.json', 'w') as outfile:
+            json.dump(log_list, outfile , indent = 4)"""
+    # Get the unique key generated
+    '''emp_key = emp_ref.key
+    print(emp_key)
+
+
+
+    ref = db.reference('/')
+    ref.set({
+            f'{str(ctx.guild.id)}':
+                {
+                    f'{str(ctx.author.id)}': {
+                        'msgs_del': f'{str(amount)}',
+                        'date_time': f'{str(datetime.now().strftime("%d/%m/%Y | %H:%M"))}',
+
+                    }
+
+                }
+            })'''
 
 # repeat cmd
 @client.command()
