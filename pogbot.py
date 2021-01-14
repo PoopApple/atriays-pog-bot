@@ -77,7 +77,7 @@ firebase_admin.initialize_app(cred, {
 
 
 # Prefix
-prefix = ["..", '<@!779225458159386624> ']
+prefix = [".", '<@!779225458159386624> ']
 
 # Permission for intents
 intents = discord.Intents(messages=True, guilds=True,
@@ -178,7 +178,7 @@ async def clear(ctx, amount=1):
     # Generate a reference to a location
     emp_ref = ref.push(
         {
-        'guild' : f'{str(ctx.author.id)}',
+        'user' : f'{str(ctx.author.id)} | {str(ctx.author)}',
         'msgs_del': f'{str(amount)}',
         'date_time': f'{str(datetime.now().strftime("%d/%m/%Y | %H:%M"))}'
         }
