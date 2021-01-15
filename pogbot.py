@@ -35,6 +35,7 @@ owner ={
 #LIBRARIES
 import discord
 from discord.ext import commands
+
 from discord.utils import get
 
 from discord import member
@@ -91,15 +92,25 @@ client = commands.Bot(command_prefix= prefix,
 
 # Conditions for commands :-
 # example code ;-; - @commands.check(is_Atriays or is_Mutant or is_Nerdy or has_permissions(administrator=True))
-def is_Atriays(ctx):
-    return ctx.author.id == 543718305773387776;
+def is_atriays(ctx):
+    def predicate(ctx):
+        return ctx.message.author.id == 543718305773387776
+    return commands.check(predicate);
 
-def is_Mutant(ctx):
-    return ctx.author.id == 460335920260841482;
+def is_mutant(ctx):
+    def predicate(ctx):
+        return ctx.message.author.id == 460335920260841482
+    return commands.check(predicate);
 
-def is_Nerdy(ctx):
-    return ctx.author.id == 516173155216392193;
+def is_nerdy(ctx):
+    def predicate(ctx):
+        return ctx.message.author.id == 516173155216392193
+    return commands.check(predicate);
 
+def is_trimunati(ctx):
+    def predicate(ctx):
+        return (ctx.message.author.id == 516173155216392193 or 460335920260841482 or 543718305773387776)
+    return commands.check(predicate)
 
 
 # Help cmd (help)
@@ -158,7 +169,7 @@ async def Pog(ctx, *, pog_notpog):
 
 # clear cmd (clear)
 @client.command(aliases = ['purge'])
-@commands.check(is_Atriays or is_Mutant or is_Nerdy or has_permissions(administrator=True))
+@commands.check_any(is_atriays() ,is_mutant() , is_nerdy() , commands.has_permissions(administrator=True),is_trimunati)
 async def clear(ctx, amount=1):
     await ctx.message.delete()
     #await str(cleared_msgs[0])[12:30]).delete()
@@ -362,32 +373,6 @@ async def botinvite(ctx):
     await ctx.send("Invite Atriays's Pog Bot: http://bit.ly/3n3PmGV")
 
 
-#MUSIC
-
-MUSIC_COLOUR = 0x78f0b4
-"""
-#results = YoutubeSearch(search, max_results=10).to_dict()
-class YTDLSource(discord.PCMVolumeTransformer):
-    def __init__(self, source, *, data, volume=0.5):
-        super().__init__(source, volume)
-
-        self.data = data
-
-        self.title = data.get('title')
-        self.url = data.get('url')
-
-    @classmethod
-    async def from_url(cls, url, *, loop=None, stream=False):
-        loop = loop or asyncio.get_event_loop()
-        data = await loop.run_in_executor(None, lambda: ytdl.extract_info(url, download=not stream))
-
-        if 'entries' in data:
-            # take first item from a playlist
-            data = data['entries'][0]
-
-        filename = data['url'] if stream else ytdl.prepare_filename(data)
-        return cls(discord.FFmpegPCMAudio(filename, **ffmpeg_options), data=data)
-"""
 # .----------------.  .----------------.  .----------------.  .-----------------. .----------------.  .----------------.
 # | .--------------. || .--------------. || .--------------. || .--------------. || .--------------. || .--------------. |
 # | |  _________   | || | ____   ____  | || |  _________   | || | ____  _____  | || |  _________   | || |    _______   | |
