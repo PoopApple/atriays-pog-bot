@@ -92,22 +92,22 @@ client = commands.Bot(command_prefix= prefix,
 
 # Conditions for commands :-
 # example code ;-; - @commands.check(is_Atriays or is_Mutant or is_Nerdy or has_permissions(administrator=True))
-def is_atriays(ctx):
+def is_atriays():
     def predicate(ctx):
         return ctx.message.author.id == 543718305773387776
     return commands.check(predicate);
 
-def is_mutant(ctx):
+def is_mutant():
     def predicate(ctx):
         return ctx.message.author.id == 460335920260841482
     return commands.check(predicate);
 
-def is_nerdy(ctx):
+def is_nerdy():
     def predicate(ctx):
         return ctx.message.author.id == 516173155216392193
     return commands.check(predicate);
 
-def is_trimunati(ctx):
+def is_trimunati():
     def predicate(ctx):
         return (ctx.message.author.id == 516173155216392193 or 460335920260841482 or 543718305773387776)
     return commands.check(predicate)
@@ -169,7 +169,7 @@ async def Pog(ctx, *, pog_notpog):
 
 # clear cmd (clear)
 @client.command(aliases = ['purge'])
-@commands.check_any(is_atriays() ,is_mutant() , is_nerdy() , commands.has_permissions(administrator=True),is_trimunati)
+@commands.check_any(is_atriays() ,is_mutant() , is_nerdy() , commands.has_permissions(administrator=True),is_trimunati())
 async def clear(ctx, amount=1):
     await ctx.message.delete()
     #await str(cleared_msgs[0])[12:30]).delete()
@@ -311,7 +311,7 @@ async def _8ball(ctx, *, question):
 
 
 @client.command()
-@commands.check(is_Atriays or is_Mutant or is_Nerdy)
+@commands.check(is_atriays() or is_mutant() or is_nerdy())
 async def guilds(ctx):
 
     guild_embed = discord.Embed(title = "Atriays's Pog Bot is in these Guilds: ", color = 0xFF2424)
@@ -328,7 +328,7 @@ async def guilds(ctx):
 
 
 @client.command()
-@commands.check(is_Atriays or is_Mutant or is_Nerdy)
+@commands.check(is_atriays() or is_mutant() or is_nerdy())
 async def createinvite(ctx,id : int = None ):
 
     if id == None:
