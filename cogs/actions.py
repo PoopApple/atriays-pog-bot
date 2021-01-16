@@ -37,18 +37,12 @@ class actions(commands.Cog):
     async def slap(self, ctx, user : discord.Member = None):
         if user == None :
             user = ctx.author
-
             userpfp = user.avatar_url
-            #img = Image.open(urlopen(url))
-            #opening the imgs in pillow
-
             file = self.slaplol(userpfp)
             await ctx.send(file= file)
 
         else:
             userpfp = user.avatar_url
-            #img = Image.open(urlopen(url))
-            #opening the imgs in pillow
             file = self.slaplol(userpfp)
             await ctx.send(file= file)
 
