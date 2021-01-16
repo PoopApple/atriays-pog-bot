@@ -39,11 +39,11 @@ class actions(commands.Cog):
         batman = 'https://cdn.discordapp.com/attachments/792026292781973515/793810852700094475/Batman-Slapping-Robin-Meme-Explained.png'
         if user == None :
             user = ctx.author
-            image_binary = slap(user)
+            image_binary = self.slap(user)
             #batman_opened.save('slap.png')
             await ctx.send(file=discord.File(fp=image_binary,filename="slapppppp.png"))
         else:
-            image_binary = slap(user)
+            image_binary = self.slap(user)
             #batman_opened.save('slap.png')
             await ctx.send(file=discord.File(fp=image_binary,filename="slapppppp.png"))
 
