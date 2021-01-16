@@ -239,25 +239,6 @@ async def clear(ctx, amount=1):
                 }
             })'''
 
-# repeat cmd
-@client.command()
-async def repeat(ctx, numrepeat=2, *, repeatthis):
-    if (numrepeat >= 1 and numrepeat <= 30):
-        for numrepeat in range(1, numrepeat+1):
-            await ctx.send(repeatthis)
-            numrepeat = numrepeat - 1
-
-
-
-
-# spam cmd
-@client.command()
-async def spam(ctx, numspam=2, * , pingmember: discord.Member):
-    if (numspam >= 1 and numspam <= 5):
-        for numspam in range(1, numspam+1):
-            await ctx.send(pingmember.mention)
-            numspam = numspam - 1
-
 
 @client.command()
 async def ping(ctx):
