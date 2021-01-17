@@ -65,6 +65,10 @@ from firebase_admin import credentials
 from firebase_admin import db
 
 #---------------------------------------------------------------------------------#
+#colours
+main_colour = 0x3fc2c9
+
+#---------------------------------------------------------------------------------#
 #FIREBASE
 
 cred = credentials.Certificate('./test-3918a-firebase-adminsdk-wtefn-abb1c62607.json')
@@ -75,17 +79,27 @@ firebase_admin.initialize_app(cred, {
 })
 
 #---------------------------------------------------------------------------------#
-
-
 # Prefix
-prefix = [".", '<@!779225458159386624> ']
+default_prefix = ['.']
+
+def get_prefix(client,message):
+    ref = db.reference('prefixes')
+    prefix = ref.get()
+    if prefix.get(str(message.guild.id)) == None:
+        return [f'{default_prefix[0]}','<@!779225458159386624> ']
+    else:
+        guild_prefix = prefix[str(message.guild.id)]
+        return [guild_prefix , '<@!779225458159386624> ']
+
+
+#---------------------------------------------------------------------------------#
 
 # Permission for intents
 intents = discord.Intents(messages=True, guilds=True,
                           reactions=True, members=True, presences=True)
 
 # setting the discord bot thinga majik
-client = commands.Bot(command_prefix= prefix,
+client = commands.Bot(command_prefix= get_prefix,
                       intents=intents , help_command=None) #, help_command=None
 
 #todaynow = datetime.now().strftime("%d/%m/%Y  %H:%M")
@@ -117,34 +131,36 @@ def is_trimunati():
 @client.command(aliases=['help'])
 async def _help(ctx):
     helpembed = discord.Embed(
-        title="Commands", description="Commands available in Atriays's Pog Bot", color=0x3fc2c9)
+        title="Commands", description="Commands available in Atriays's Pog Bot", color=main_colour)
     helpembed.set_thumbnail(
         url="https://cdn.discordapp.com/avatars/779225458159386624/f3ba776ec26d2b00811a33d60ddea532.png?size=1024")
     helpembed.set_author(name="Atriays's Pog Bot", url="https://cdn.discordapp.com/avatars/779225458159386624/f3ba776ec26d2b00811a33d60ddea532.png?size=1024",
                          icon_url="https://cdn.discordapp.com/avatars/779225458159386624/f3ba776ec26d2b00811a33d60ddea532.png?size=1024")
     helpembed.add_field(
-        name="Help", value=f"This Command. *Usage - {prefix[0]}help* => Shows this embed", inline=False)
+        name="Help", value=f"This Command. *Usage - {default_prefix[0]}help* => Shows this embed", inline=False)
     helpembed.add_field(
-        name="Clear", value=f"Clears chat upto a point. *Usage - {prefix[0]}clear 10* => Clears 10 chat before the command. ", inline=False)
+        name="Clear", value=f"Clears chat upto a point. *Usage - {default_prefix[0]}clear 10* => Clears 10 chat before the command. ", inline=False)
     helpembed.add_field(
-        name="Repeat", value=f'Repeats anything you say. (max: 100 times) *Usage - {prefix[0]}Repeat 5 Hi I am Pog=>* Repeats "Hi I am Pog" 10 times.', inline=False)
+        name="Repeat", value=f'Repeats anything you say. (max: 100 times) *Usage - {default_prefix[0]}Repeat 5 Hi I am Pog=>* Repeats "Hi I am Pog" 10 times.', inline=False)
     helpembed.add_field(
-        name="Spam", value=f"Spams a user. (max: 5 times) *Usage - {prefix[0]}spam 2 @User =>* Spam pings the user 2 times.", inline=False)
+        name="Spam", value=f"Spams a user. (max: 5 times) *Usage - {default_prefix[0]}spam 2 @User =>* Spam pings the user 2 times.", inline=False)
     helpembed.add_field(
-        name="Ping", value=f"Shows the bot's ping. *Usage - {prefix[0]}Ping*", inline=False)
+        name="Ping", value=f"Shows the bot's ping. *Usage - {default_prefix[0]}Ping*", inline=False)
     helpembed.add_field(
         name="adinub", value=f"Shows the Universal Truth", inline=False)
     helpembed.add_field(
-        name="8Ball", value=f"A general 8ball command. *Usage - {prefix[0]}8ball Am i pog? =>* Gives you a random answer.", inline=False)
+        name="8Ball", value=f"A general 8ball command. *Usage - {default_prefix[0]}8ball Am i pog? =>* Gives you a random answer.", inline=False)
     helpembed.add_field(
-        name="pog", value=f"Tells you if the statement is pog or not. *Usage - {prefix[0]}pog u r a poopi*", inline=False)
+        name="pog", value=f"Tells you if the statement is pog or not. *Usage - {default_prefix[0]}pog u r a poopi*", inline=False)
     helpembed.add_field(
-        name="slap", value=f"slaps the user you mentioned. *Usage - {prefix[0]}slap @user*", inline=False)
+        name="slap", value=f"slaps the user you mentioned. *Usage - {default_prefix[0]}slap @user*", inline=False)
+    helpembed.add_field(
+        name="avatar", value=f"Displays the avatar of the mentioned user. *Usage - {default_prefix[0]}av @user*", inline=False)
     # await ctx.send(embed = helpembed)
     await ctx.author.send(embed=helpembed)
 
     dmembed = discord.Embed(
-        title=f'{ctx.author}, Check Your DM', color=0x3fc2c9)
+        title=f'{ctx.author}, Check Your DM', color=main_colour)
     msg = await ctx.send(embed=dmembed)
     await msg.add_reaction(u'\u2705')
 
@@ -177,7 +193,7 @@ async def clear(ctx, amount=1):
 
     cleared_msgs = await ctx.channel.purge(limit=amount)
 
-    purge_embed = discord.Embed(title = f'Deleted {amount} message(s)' , color = 0x3fc2c9)
+    purge_embed = discord.Embed(title = f'Deleted {amount} message(s)' , color = main_colour)
     await ctx.send(embed = purge_embed , delete_after = 1.7)
 
     print(f'{ctx.author} cleared {amount} msg(s)')
@@ -197,53 +213,12 @@ async def clear(ctx, amount=1):
 
 
 
-    """    data = json.load(open('./output/output.json'))
-
-        # convert data to list if not
-        if type(data) is dict:
-            log_list = [data]
-        else:
-            log_list = data
-
-        # append new item to data lit
-        log_list.append(
-        {
-          "guild_id": str(f"{ctx.guild.id}"),
-          "guild": str(f'{ctx.guild}'),
-          "user_id": str(f"{ctx.author.id}"),
-          "user": str(f'{ctx.author}'),
-          "msgs_del": str(f'{amount}'),
-          "date-time": str(datetime.now().strftime("%d/%m/%Y | %H:%M"))
-        }
-        )
-
-        # write list to file
-        with open('./output/output.json', 'w') as outfile:
-            json.dump(log_list, outfile , indent = 4)"""
-    # Get the unique key generated
-    '''emp_key = emp_ref.key
-    print(emp_key)
-
-
-
-    ref = db.reference('/')
-    ref.set({
-            f'{str(ctx.guild.id)}':
-                {
-                    f'{str(ctx.author.id)}': {
-                        'msgs_del': f'{str(amount)}',
-                        'date_time': f'{str(datetime.now().strftime("%d/%m/%Y | %H:%M"))}',
-
-                    }
-
-                }
-            })'''
 
 
 @client.command()
 async def ping(ctx):
     dmembed = discord.Embed(
-        title=f'Poggers!! \nThe Ping is {round(client.latency * 1000)}ms', color=0x3fc2c9)
+        title=f'Poggers!! \nThe Ping is {round(client.latency * 1000)}ms', color=main_colour)
     msg = await ctx.send(embed=dmembed)
     await msg.add_reaction(u'\U0001F1F5')
     await msg.add_reaction(u'\U0001F1F4')
@@ -354,6 +329,23 @@ async def botinvite(ctx):
     await ctx.send("Invite Atriays's Pog Bot: http://bit.ly/3n3PmGV")
 
 
+
+@client.command(aliases = ['av'])
+async def avatar(ctx, user : discord.Member = None):
+    if user == None:
+        av_embed = discord.Embed(title=f"Avatar of `{ctx.author}`", color=main_colour)
+        av_embed.add_field(
+            name=f"*Link:*", value=f'[ [webp]({ctx.author.avatar_url}) ] [ [jpg]({ctx.author.avatar_url_as(format = "jpeg")}) ] [ [png]({ctx.author.avatar_url_as(format = "png")}) ]', inline=False)
+        av_embed.set_image(url = ctx.author.avatar_url)
+        await ctx.channel.send(embed = av_embed)
+    else:
+        av_embed = discord.Embed(title=f"Avatar of `{user}`", color=main_colour)
+        av_embed.add_field(
+            name=f"*Link:*", value=f'[ [webp]({user.avatar_url}) ] [ [jpg]({user.avatar_url_as(format = "jpeg")}) ] [ [png]({user.avatar_url_as(format = "png")}) ]', inline=False)
+        av_embed.set_image(url = user.avatar_url)
+        await ctx.channel.send(embed = av_embed)
+
+
 # .----------------.  .----------------.  .----------------.  .-----------------. .----------------.  .----------------.
 # | .--------------. || .--------------. || .--------------. || .--------------. || .--------------. || .--------------. |
 # | |  _________   | || | ____   ____  | || |  _________   | || | ____  _____  | || |  _________   | || |    _______   | |
@@ -386,31 +378,20 @@ async def on_ready():
 
 
 
-"""
+'''
 @client.event
 async def on_message(message):
     message.author: discord.member
     if message.author == client.user:
         return
-
+    elif message.embeds:
+        print(message.embeds[0].to_dict())
     messageContent = message.content
     messageMentions = message.mentions
     if len(messageContent) > 0:
         await message.channel.send(f'```{messageContent}```')
-"""
+'''
 
-
-# .----------------.  .----------------.  .----------------.  .----------------.  .----------------.  .----------------.  .----------------.  .----------------.  .----------------.
-# | .--------------. || .--------------. || .--------------. || .--------------. || .--------------. || .--------------. || .--------------. || .--------------. || .--------------. |
-# | |  ________    | || |     _____    | || |    _______   | || |     ______   | || |      __      | || |  _______     | || |  ________    | || |  _________   | || |  ________    | |
-# | | |_   ___ `.  | || |    |_   _|   | || |   /  ___  |  | || |   .' ___  |  | || |     /  \     | || | |_   __ \    | || | |_   ___ `.  | || | |_   ___  |  | || | |_   ___ `.  | |
-# | |   | |   `. \ | || |      | |     | || |  |  (__ \_|  | || |  / .'   \_|  | || |    / /\ \    | || |   | |__) |   | || |   | |   `. \ | || |   | |_  \_|  | || |   | |   `. \ | |
-# | |   | |    | | | || |      | |     | || |   '.___`-.   | || |  | |         | || |   / ____ \   | || |   |  __ /    | || |   | |    | | | || |   |  _|  _   | || |   | |    | | | |
-# | |  _| |___.' / | || |     _| |_    | || |  |`\____) |  | || |  \ `.___.'\  | || | _/ /    \ \_ | || |  _| |  \ \_  | || |  _| |___.' / | || |  _| |___/ |  | || |  _| |___.' / | |
-# | | |________.'  | || |    |_____|   | || |  |_______.'  | || |   `._____.'  | || ||____|  |____|| || | |____| |___| | || | |________.'  | || | |_________|  | || | |________.'  | |
-# | |              | || |              | || |              | || |              | || |              | || |              | || |              | || |              | || |              | |
-# | '--------------' || '--------------' || '--------------' || '--------------' || '--------------' || '--------------' || '--------------' || '--------------' || '--------------' |
-#'----------------'  '----------------'  '----------------'  '----------------'  '----------------'  '----------------'  '----------------'  '----------------'  '----------------'
 
 
 
@@ -423,6 +404,32 @@ async def shutdown(ctx):
         await client.logout()
     else:
         await ctx.send(f"Shut {ctx.author.mention}. You don't have the permission to Shutdown Atriays's Pog Bot.")
+
+
+#settings
+@client.command()
+async def settings(ctx, sub_setting , set_syntax_one = None , set_syntax_two = None):
+    if (sub_setting == 'prefix'):
+        if (set_syntax_one == None and set_syntax_two == None):
+
+            ref = db.reference('prefixes')
+            prefix = ref.get()
+            if prefix.get(str(ctx.guild.id)) == None:
+                current_prefix = default_prefix[0]
+            else:
+                guild_prefix = prefix[str(ctx.guild.id)]
+                current_prefix = guild_prefix
+            await ctx.send(f"Current Prefix of {ctx.guild}:  {current_prefix}")
+
+        elif (set_syntax_one == 'change'):
+            if set_syntax_two == None:
+                await ctx.send('Usage => settings prefix change {new prefix} eg. settings prefix change >')
+            else:
+                ref = db.reference('prefixes')
+                ref.update({f'{ctx.guild.id}' : set_syntax_two})
+                await ctx.send(f'Changed Server Prefix to: {set_syntax_two}')
+
+
 
 
 # Cog Stuff
