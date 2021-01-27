@@ -341,7 +341,7 @@ async def avatar(ctx, user : discord.Member = None):
     else:
         av_embed = discord.Embed(title=f"Avatar of `{user}`", color=main_colour)
         av_embed.add_field(
-            name=f"*Link:*", value=f'[ [webp]({user.avatar_url}) ] [ [jpg]({user.avatar_url_as(format = "jpeg")}) ] [ [png]({user.avatar_url_as(format = "png")}) ]', inline=False)
+            name=f"*Link:*", value=f'[webp]({user.avatar_url}) | [jpg]({user.avatar_url_as(format = "jpeg")}) | [png]({user.avatar_url_as(format = "png")}) ]', inline=False)
         av_embed.set_image(url = user.avatar_url)
         await ctx.channel.send(embed = av_embed)
 
