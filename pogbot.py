@@ -436,7 +436,7 @@ async def settings(ctx, sub_setting , set_syntax_one = None , set_syntax_two = N
                 ref.update({f'{ctx.guild.id}' : set_syntax_two})
                 await ctx.send(f'Changed Server Prefix to: {set_syntax_two}')
 
-
+@commands.check_any(is_atriays() ,is_mutant() , is_nerdy() , commands.has_permissions(administrator=True),is_trimunati())
 @client.command()
 async def enable(ctx , * , cog_name : str):
     numb_cogs = len(all_cogs)-1
@@ -458,6 +458,7 @@ async def enable(ctx , * , cog_name : str):
     else:
         await ctx.send('Choose from the following: ' + cogs_line)
 
+@commands.check_any(is_atriays() ,is_mutant() , is_nerdy() , commands.has_permissions(administrator=True),is_trimunati())
 @client.command()
 async def disable(ctx , * , cog_name : str):
     numb_cogs = len(all_cogs)-1
