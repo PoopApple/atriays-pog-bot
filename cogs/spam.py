@@ -1,6 +1,37 @@
 import discord
 from discord.ext import commands
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import db
+import os
 
+
+
+def cogcheck():
+    def predicate(ctx):
+
+        ref = db.reference('cogs')
+        ref = db.reference(f'cogs/{ctx.guild.id}')
+        cog = ref.get()
+
+        if ref.get() != None:
+            print('lol man its there')
+            actions_enabled = cog['spam']
+            return actions_enabled == '1';
+        else:
+            print('it not there man')
+            ref = db.reference(f'cogs/{ctx.guild.id}')
+                # Generate a reference to a location
+            emp_ref = ref.update(
+                    {
+                    'actions': '1',
+                    'badping': '0',
+                    'spam': '0',
+                    'callouts': '0'
+                    }
+                )
+            return False;
+    return predicate;
 
 class actions(commands.Cog):
     def __init__(self, client):
@@ -12,6 +43,7 @@ class actions(commands.Cog):
 
 
     # repeat cmd
+    @commands.check(cogcheck())
     @commands.command()
     async def repeat(self,ctx, numrepeat=2, *, repeatthis):
         if (numrepeat >= 1 and numrepeat <= 30):
@@ -23,6 +55,7 @@ class actions(commands.Cog):
 
 
     # spam cmd
+    @commands.check(cogcheck())
     @commands.command()
     async def spam(self,ctx, numspam=2, * , pingmember: discord.Member):
         if (numspam >= 1 and numspam <= 5):

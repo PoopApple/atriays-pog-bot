@@ -1,10 +1,39 @@
 import discord
 from discord.ext import commands
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import db
+import os
+
+def cogcheck(message):
+
+    ref = db.reference('cogs')
+    ref = db.reference(f'cogs/{message.guild.id}')
+    cog = ref.get()
+
+    if ref.get() != None:
+        enabled = cog['badping']
+        return enabled == '1';
+    else:
+        ref = db.reference(f'cogs/{message.guild.id}')
+            # Generate a reference to a location
+        emp_ref = ref.update(
+                {
+                'actions': '1',
+                'badping': '0',
+                'spam': '0',
+                'callouts': '0'
+                }
+            )
+        return False;
+
+
 
 
 class badpings(commands.Cog):
     def __init__(self, client):
         self.client = client
+
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -16,8 +45,14 @@ class badpings(commands.Cog):
         badpings = ['543718305773387776','516173155216392193']  # ids of bad pings
 
         message.author: discord.member
-        if message.author.id == 779068718486519828:
+        if message.author.id == self.client.user.id:
             return
+        elif cogcheck(message) == False:
+            return
+
+
+        #elif message.author.bot:
+        #    return
         else:
             messageContent = message.content
             messageMentions = message.mentions

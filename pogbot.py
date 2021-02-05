@@ -368,6 +368,13 @@ async def on_ready():
     await client.change_presence(status=discord.Status.idle, activity=discord.Game("Atriays's Pog Bot"))
 
 
+@client.event
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.errors.CheckFailure):
+        pass
+
+
+
 #@client.event
 #async def on_member_join(member):
 #    print(f'{member} joined. /nPOGGGG')
@@ -430,26 +437,110 @@ async def settings(ctx, sub_setting , set_syntax_one = None , set_syntax_two = N
                 await ctx.send(f'Changed Server Prefix to: {set_syntax_two}')
 
 
+@client.command()
+async def enable(ctx , * , cog_name : str):
+    numb_cogs = len(all_cogs)-1
+    cogs_line = ''
+    for numb_cogs in range(len(all_cogs)):
+        if all_cogs[numb_cogs] == cog_name:
+            ref = db.reference(f'cogs/{str(ctx.guild.id)}')
+            emp_ref = ref.update({
+                f'{cog_name}': '1'
+                })
+            numb_cogs = 0
+            cogs_line = ''
+            print(all_cogs[numb_cogs])
+            return
+        else:
+            cogs_line += f'`{all_cogs[numb_cogs]}` '
+            print(all_cogs[numb_cogs])
+    if cogs_line == '':
+        return
+    else:
+        await ctx.send('Choose from the following: ' + cogs_line)
+
+@client.command()
+async def disable(ctx , * , cog_name : str):
+    numb_cogs = len(all_cogs)-1
+    cogs_line = ''
+    for numb_cogs in range(len(all_cogs)):
+        if all_cogs[numb_cogs] == cog_name:
+            ref = db.reference(f'cogs/{str(ctx.guild.id)}')
+            emp_ref = ref.update({
+                f'{cog_name}': '0'
+                })
+            numb_cogs = 0
+            cogs_line = ''
+            print(all_cogs[numb_cogs])
+            return
+        else:
+            cogs_line += f'`{all_cogs[numb_cogs]}` '
+            print(all_cogs[numb_cogs])
+    if cogs_line == '':
+        return
+    else:
+        await ctx.send('Choose from the following: ' + cogs_line)
+
+
+
+
+'''    ref = db.reference(f'cogs/{str(ctx.guild.id)}')
+    for cogs in all_cogs:
+        if cog_name == cogs:
+            emp_ref = ref.update({
+                f'{cog_name}': '1'
+                })
+        else:
+            return
+    print(emp_ref)
+    if emp_ref == None :
+        cog_name = ''
+        for cogs in all_cogs:
+            cog_names += f'`{cogs}` '
+
+        await ctx.send(f'Choose from the following: `{cogs_names}`')
+'''
+
+
+    # Generate a reference to a location
+
+
+
+all_cogs = []
+
+@client.command()
+async def cogs(ctx):
+    global all_cogs
+    await ctx.send(all_cogs)
+
+
+
 
 
 # Cog Stuff
-unload_cog = ['cogs.callouts',
-              'cogs.badping'
+unload_cog = [
                 ]
 
+
+
+@commands.check(is_atriays() or is_mutant() or is_nerdy())
 @client.command()
-async def enable(ctx, extension):
+async def senable(ctx, extension):
     client.load_extension(f'cogs.{extension}')
     await ctx.send(f'Loaded {extension}')
 
+
+
+@commands.check(is_atriays() or is_mutant() or is_nerdy())
 @client.command()
-async def disable(ctx, extension):
+async def sdisable(ctx, extension):
     client.unload_extension(f'cogs.{extension}')
     await ctx.send(f'Unloaded {extension}')
 
 for filename in os.listdir('./cogs'):
     if filename.endswith('.py'):
         client.load_extension(f'cogs.{filename[:-3]}')
+        all_cogs.append(filename[:-3])
 
 for unload in unload_cog:
     client.unload_extension(unload)

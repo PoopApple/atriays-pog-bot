@@ -1,6 +1,31 @@
 import discord
 from discord.ext import commands
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import db
+import os
 
+def cogcheck(message):
+
+    ref = db.reference('cogs')
+    ref = db.reference(f'cogs/{message.guild.id}')
+    cog = ref.get()
+
+    if ref.get() != None:
+        enabled = cog['callouts']
+        return enabled == '1';
+    else:
+        ref = db.reference(f'cogs/{message.guild.id}')
+            # Generate a reference to a location
+        emp_ref = ref.update(
+                {
+                'actions': '1',
+                'badping': '0',
+                'spam': '0',
+                'callouts': '0'
+                }
+            )
+        return False;
 
 class callouts(commands.Cog):
     def __init__(self, client):
@@ -19,7 +44,9 @@ class callouts(commands.Cog):
         dont = ['dont', 'Dont', "Don't", "don't"]
 
         message.author: discord.member
-        if message.author == self.client:
+        if message.author.id == self.client.user.id:
+            return
+        elif cogcheck(message) == False:
             return
 
         messageContent = message.content
@@ -37,7 +64,7 @@ class callouts(commands.Cog):
             for words in dont:
                 if words == messageContent:
                     await message.channel.send(':regional_indicator_d: :regional_indicator_o: :regional_indicator_n: :regional_indicator_t:')
-            
+
 
 
 def setup(client):

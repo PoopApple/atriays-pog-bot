@@ -3,6 +3,45 @@ from discord.ext import commands
 from PIL import Image
 import requests
 from io import BytesIO
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import db
+import os
+
+
+
+def cogcheck():
+    def predicate(ctx):
+
+        ref = db.reference('cogs')
+        ref = db.reference(f'cogs/{ctx.guild.id}')
+        cog = ref.get()
+
+        if ref.get() != None:
+            print('lol man its there')
+            actions_enabled = cog['actions']
+            return actions_enabled == '1';
+        else:
+            print('it not there man')
+            ref = db.reference(f'cogs/{ctx.guild.id}')
+                # Generate a reference to a location
+            emp_ref = ref.update(
+                    {
+                    'actions': '1',
+                    'badping': '0',
+                    'spam': '0',
+                    'callouts': '0'
+                    }
+                )
+            return True;
+    return predicate;
+
+
+
+
+
+
+
 
 class actions(commands.Cog):
     def __init__(self, client):
@@ -32,7 +71,7 @@ class actions(commands.Cog):
             #batman_opened.save('slap.png')
             return discord.File(fp=image_binary,filename="slapppppp.png")
 
-
+    @commands.check(cogcheck())
     @commands.command()
     async def slap(self, ctx, user : discord.Member = None):
         if user == None :
