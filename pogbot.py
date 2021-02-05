@@ -449,11 +449,10 @@ async def enable(ctx , * , cog_name : str):
                 })
             numb_cogs = 0
             cogs_line = ''
-            print(all_cogs[numb_cogs])
+            await ctx.send(f'Enabled {cog_name} for {ctx.guild}.')
             return
         else:
             cogs_line += f'`{all_cogs[numb_cogs]}` '
-            print(all_cogs[numb_cogs])
     if cogs_line == '':
         return
     else:
@@ -471,38 +470,15 @@ async def disable(ctx , * , cog_name : str):
                 })
             numb_cogs = 0
             cogs_line = ''
-            print(all_cogs[numb_cogs])
+            await ctx.send(f'Disabled {cog_name} for {ctx.guild}.')
             return
         else:
             cogs_line += f'`{all_cogs[numb_cogs]}` '
-            print(all_cogs[numb_cogs])
+
     if cogs_line == '':
         return
     else:
         await ctx.send('Choose from the following: ' + cogs_line)
-
-
-
-
-'''    ref = db.reference(f'cogs/{str(ctx.guild.id)}')
-    for cogs in all_cogs:
-        if cog_name == cogs:
-            emp_ref = ref.update({
-                f'{cog_name}': '1'
-                })
-        else:
-            return
-    print(emp_ref)
-    if emp_ref == None :
-        cog_name = ''
-        for cogs in all_cogs:
-            cog_names += f'`{cogs}` '
-
-        await ctx.send(f'Choose from the following: `{cogs_names}`')
-'''
-
-
-    # Generate a reference to a location
 
 
 
@@ -527,7 +503,7 @@ unload_cog = [
 @client.command()
 async def senable(ctx, extension):
     client.load_extension(f'cogs.{extension}')
-    await ctx.send(f'Loaded {extension}')
+    await ctx.send(f'Enabled {extension}')
 
 
 
@@ -535,7 +511,7 @@ async def senable(ctx, extension):
 @client.command()
 async def sdisable(ctx, extension):
     client.unload_extension(f'cogs.{extension}')
-    await ctx.send(f'Unloaded {extension}')
+    await ctx.send(f'Disabled {extension}')
 
 for filename in os.listdir('./cogs'):
     if filename.endswith('.py'):
