@@ -4,7 +4,43 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import db
 import os
+import json
 
+def update_cogs_file():
+    ref = db.reference(f'cogs')
+    data = ref.get()
+    with open(os.path.dirname(__file__) + '/../cog_data.json', "w") as cog__data:
+        json.dump(data, cog__data, indent = 4)
+
+
+with open(f'{os.path.dirname(__file__) + "/../cog_data.json"}') as f:
+  cog_data = json.load(f)
+
+
+def cog_check():
+    def predicate(ctx):
+
+        cog = cog_data.get(str(ctx.guild.id))
+
+        if cog != None:
+            print('lol man its there')
+            enabled = cog['spam']
+            return enabled == '1';
+        else:
+            print('it not there man')
+            ref = db.reference(f'cogs/{ctx.guild.id}')
+                # Generate a reference to a location
+            emp_ref = ref.update(
+                    {
+                    'actions': '1',
+                    'badping': '0',
+                    'spam': '0',
+                    'callouts': '0'
+                    }
+                )
+            update_cogs_file()
+            return False;
+    return predicate;
 
 
 def cogcheck():

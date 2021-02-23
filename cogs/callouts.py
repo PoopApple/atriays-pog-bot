@@ -4,14 +4,24 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import db
 import os
+import json
+
+def update_cogs_file():
+    ref = db.reference(f'cogs')
+    data = ref.get()
+    with open(os.path.dirname(__file__) + '/../cog_data.json', "w") as cog__data:
+        json.dump(data, cog__data, indent = 4)
+
+
+with open(f'{os.path.dirname(__file__) + "/../cog_data.json"}') as f:
+  cog_data = json.load(f)
+
 
 def cogcheck(message):
 
-    ref = db.reference('cogs')
-    ref = db.reference(f'cogs/{message.guild.id}')
-    cog = ref.get()
+    cog = cog_data.get(str(message.guild.id))
 
-    if ref.get() != None:
+    if cog != None:
         enabled = cog['callouts']
         return enabled == '1';
     else:
@@ -25,7 +35,9 @@ def cogcheck(message):
                 'callouts': '0'
                 }
             )
+        update_cogs_file()
         return False;
+
 
 class callouts(commands.Cog):
     def __init__(self, client):

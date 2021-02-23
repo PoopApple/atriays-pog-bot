@@ -1,4 +1,5 @@
 import discord
+import json
 from discord.ext import commands
 from PIL import Image
 import requests
@@ -9,15 +10,22 @@ from firebase_admin import db
 import os
 
 
+def update_cogs_file():
+    ref = db.reference(f'cogs')
+    data = ref.get()
+    with open(os.path.dirname(__file__) + '/../cog_data.json', "w") as cog__data:
+        json.dump(data, cog__data, indent = 4)
 
-def cogcheck():
+
+with open(f'{os.path.dirname(__file__) + "/../cog_data.json"}') as f:
+  cog_data = json.load(f)
+
+def cog_check():
     def predicate(ctx):
 
-        ref = db.reference('cogs')
-        ref = db.reference(f'cogs/{ctx.guild.id}')
-        cog = ref.get()
+        cog = cog_data.get(str(ctx.guild.id))
 
-        if ref.get() != None:
+        if cog != None:
             print('lol man its there')
             actions_enabled = cog['actions']
             return actions_enabled == '1';
@@ -33,6 +41,7 @@ def cogcheck():
                     'callouts': '0'
                     }
                 )
+            update_cogs_file()
             return True;
     return predicate;
 
@@ -71,7 +80,7 @@ class actions(commands.Cog):
             #batman_opened.save('slap.png')
             return discord.File(fp=image_binary,filename="slapppppp.png")
 
-    @commands.check(cogcheck())
+    @commands.check(cog_check())
     @commands.command()
     async def slap(self, ctx, user : discord.Member = None):
         if user == None :

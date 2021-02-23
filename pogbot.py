@@ -64,6 +64,8 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import db
 
+import ast
+
 #---------------------------------------------------------------------------------#
 #colours
 main_colour = 0x3fc2c9
@@ -341,9 +343,12 @@ async def avatar(ctx, user : discord.Member = None):
     else:
         av_embed = discord.Embed(title=f"Avatar of `{user}`", color=main_colour)
         av_embed.add_field(
-            name=f"*Link:*", value=f'[webp]({user.avatar_url}) | [jpg]({user.avatar_url_as(format = "jpeg")}) | [png]({user.avatar_url_as(format = "png")}) ]', inline=False)
+            name=f"*Link:*", value=f'[webp]({user.avatar_url}) | [jpg]({user.avatar_url_as(format = "jpeg")}) | [png]({user.avatar_url_as(format = "png")}) ', inline=False)
         av_embed.set_image(url = user.avatar_url)
         await ctx.channel.send(embed = av_embed)
+
+
+
 
 
 # .----------------.  .----------------.  .----------------.  .-----------------. .----------------.  .----------------.
@@ -359,6 +364,9 @@ async def avatar(ctx, user : discord.Member = None):
 # '----------------'  '----------------'  '----------------'  '----------------'  '----------------'  '----------------'
 
 
+
+
+
 # on ready - checks if the bot is running
 @client.event
 async def on_ready():
@@ -366,13 +374,14 @@ async def on_ready():
     print('Logged in as {0} ({0.id})'.format(client.user))
     print('------')
     await client.change_presence(status=discord.Status.idle, activity=discord.Game("Atriays's Pog Bot"))
+    update_cogs_file()
 
 
-@client.event
+'''@client.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.errors.CheckFailure):
         pass
-
+'''
 
 
 #@client.event
@@ -436,51 +445,62 @@ async def settings(ctx, sub_setting , set_syntax_one = None , set_syntax_two = N
                 ref.update({f'{ctx.guild.id}' : set_syntax_two})
                 await ctx.send(f'Changed Server Prefix to: {set_syntax_two}')
 
-@commands.check_any(is_atriays() ,is_mutant() , is_nerdy() , commands.has_permissions(administrator=True),is_trimunati())
-@client.command()
-async def enable(ctx , * , cog_name : str):
-    numb_cogs = len(all_cogs)-1
+
+def update_cogs_file():
+    ref = db.reference(f'cogs')
+    data = ref.get()
+    with open("cog_data.json", "w") as cog__data:
+        json.dump(data, cog__data, indent = 4)
+
+def update_cog( guild_name , guild_id : int, enable_disable : int , cog_name : str):
+
     cogs_line = ''
+    if enable_disable == 1:
+        msg_enable_or_disable = 'Enabled'
+    else:
+        msg_enable_or_disable = 'Disabled'
+    #numb_cogs = 1,2,3,4 etc for length  of list ( all cogs)
     for numb_cogs in range(len(all_cogs)):
+
+
+        #check if the given cog is in the list
         if all_cogs[numb_cogs] == cog_name:
-            ref = db.reference(f'cogs/{str(ctx.guild.id)}')
+            ref = db.reference(f'cogs/{str(guild_id)}')
             emp_ref = ref.update({
-                f'{cog_name}': '1'
+                f'{cog_name}': f'{enable_disable}'
                 })
             numb_cogs = 0
             cogs_line = ''
-            await ctx.send(f'Enabled {cog_name} for {ctx.guild}.')
-            return
+            msg_to_be_sent = f'{msg_enable_or_disable} `{cog_name}` for {guild_name}.'
+            return msg_to_be_sent
+            print(msg_to_be_sent)
         else:
             cogs_line += f'`{all_cogs[numb_cogs]}` '
     if cogs_line == '':
         return
     else:
-        await ctx.send('Choose from the following: ' + cogs_line)
+        msg_to_be_sent = 'Choose from the following: ' + cogs_line
+        return msg_to_be_sent
+        print(msg_to_be_sent)
+
+
+
+
+
+
+@commands.check_any(is_atriays() ,is_mutant() , is_nerdy() , commands.has_permissions(administrator=True),is_trimunati())
+@client.command()
+async def enable(ctx , * , cog_name : str):
+    msg_sent = update_cog( ctx.guild , ctx.guild.id , 1 , cog_name)
+    update_cogs_file()
+    await ctx.send(msg_sent)
 
 @commands.check_any(is_atriays() ,is_mutant() , is_nerdy() , commands.has_permissions(administrator=True),is_trimunati())
 @client.command()
 async def disable(ctx , * , cog_name : str):
-    numb_cogs = len(all_cogs)-1
-    cogs_line = ''
-    for numb_cogs in range(len(all_cogs)):
-        if all_cogs[numb_cogs] == cog_name:
-            ref = db.reference(f'cogs/{str(ctx.guild.id)}')
-            emp_ref = ref.update({
-                f'{cog_name}': '0'
-                })
-            numb_cogs = 0
-            cogs_line = ''
-            await ctx.send(f'Disabled {cog_name} for {ctx.guild}.')
-            return
-        else:
-            cogs_line += f'`{all_cogs[numb_cogs]}` '
-
-    if cogs_line == '':
-        return
-    else:
-        await ctx.send('Choose from the following: ' + cogs_line)
-
+    msg_sent = update_cog(ctx.guild , ctx.guild.id , 0 , cog_name)
+    update_cogs_file()
+    await ctx.send(msg_sent)
 
 
 all_cogs = []
@@ -521,6 +541,90 @@ for filename in os.listdir('./cogs'):
 
 for unload in unload_cog:
     client.unload_extension(unload)
+
+print(all_cogs)
+
+
+
+"""
+███████╗██╗░░░██╗░█████╗░██╗░░░░░
+██╔════╝██║░░░██║██╔══██╗██║░░░░░
+█████╗░░╚██╗░██╔╝███████║██║░░░░░
+██╔══╝░░░╚████╔╝░██╔══██║██║░░░░░
+███████╗░░╚██╔╝░░██║░░██║███████╗
+╚══════╝░░░╚═╝░░░╚═╝░░╚═╝╚══════╝
+"""
+
+
+
+
+
+
+
+
+def insert_returns(body):
+    # insert return stmt if the last expression is a expression statement
+    if isinstance(body[-1], ast.Expr):
+        body[-1] = ast.Return(body[-1].value)
+        ast.fix_missing_locations(body[-1])
+
+    # for if statements, we insert returns into the body and the orelse
+    if isinstance(body[-1], ast.If):
+        insert_returns(body[-1].body)
+        insert_returns(body[-1].orelse)
+
+    # for with blocks, again we insert returns into the body
+    if isinstance(body[-1], ast.With):
+        insert_returns(body[-1].body)
+
+@commands.check(is_atriays())
+@client.command()
+async def evall(ctx, *, cmd):
+    """Evaluates input.
+    Input is interpreted as newline seperated statements.
+    If the last statement is an expression, that is the return value.
+    Usable globals:
+      - `bot`: the bot instance
+      - `discord`: the discord module
+      - `commands`: the discord.ext.commands module
+      - `ctx`: the invokation context
+      - `__import__`: the builtin `__import__` function
+    Such that `>eval 1 + 1` gives `2` as the result.
+    The following invokation will cause the bot to send the text '9'
+    to the channel of invokation and return '3' as the result of evaluating
+    >eval ```
+    a = 1 + 2
+    b = a * 2
+    await ctx.send(a + b)
+    a
+    ```
+    """
+    fn_name = "_eval_expr"
+
+    cmd = cmd.strip("` ")
+
+    # add a layer of indentation
+    cmd = "\n".join(f"    {i}" for i in cmd.splitlines())
+
+    # wrap in async def body
+    body = f"async def {fn_name}():\n{cmd}"
+
+    parsed = ast.parse(body)
+    body = parsed.body[0].body
+
+    insert_returns(body)
+
+    env = {
+        'bot': ctx.bot,
+        'discord': discord,
+        'commands': commands,
+        'ctx': ctx,
+        '__import__': __import__
+    }
+    exec(compile(parsed, filename="<ast>", mode="exec"), env)
+
+    result = (await eval(f"{fn_name}()", env))
+    await ctx.send(result)
 
 
 
