@@ -3,34 +3,40 @@
         "actions": "1",
         "badping": "0",
         "callouts": "0",
+        "giveaway": "1",
         "spam": "0"
     },
     "735754185479422022": {
         "actions": "1",
         "badping": "0",
         "callouts": "0",
+        "giveaway": "1",
         "spam": "1"
     },
     "775747223371251783": {
         "actions": "1",
         "badping": "0",
         "callouts": "1",
+        "giveaway": "1",
         "spam": "1"
     },
     "785897310235131914": {
         "actions": "1",
         "badping": "0",
         "callouts": "0",
+        "giveaway": "1",
         "spam": "0"
     },
     "792025916418949130": {
         "actions": "1",
         "badping": "0",
         "callouts": "0",
+        "giveaway": "1",
         "spam": "0"
     },
     "guildid": {
         "actions": 0,
-        "cogname": 1
+        "cogname": 1,
+        "giveaway": "1"
     }
 }

@@ -382,7 +382,10 @@ async def on_command_error(ctx, error):
     if isinstance(error, commands.errors.CheckFailure):
         pass
 '''
-
+'''@client.event
+async def on_command_error(ctx, error):
+    if isinstance(error, discord.ext.commands.errors.CommandInvokeError):
+        await ctx.send('No Reactions :(')'''
 
 #@client.event
 #async def on_member_join(member):
@@ -520,6 +523,8 @@ unload_cog = [
 
 
 
+
+
 @commands.check(is_atriays() or is_mutant() or is_nerdy())
 @client.command()
 async def senable(ctx, extension):
@@ -577,7 +582,7 @@ def insert_returns(body):
     if isinstance(body[-1], ast.With):
         insert_returns(body[-1].body)
 
-@commands.check(is_atriays())
+@is_trimunati()
 @client.command()
 async def evall(ctx, *, cmd):
     """Evaluates input.

@@ -32,7 +32,8 @@ def cogcheck(message):
                 'actions': '1',
                 'badping': '0',
                 'spam': '0',
-                'callouts': '0'
+                'callouts': '0',
+                'giveaway' : '1'
                 }
             )
         update_cogs_file()

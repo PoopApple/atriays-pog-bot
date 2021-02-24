@@ -23,11 +23,9 @@ def cog_check():
         cog = cog_data.get(str(ctx.guild.id))
 
         if cog != None:
-            print('lol man its there')
             enabled = cog['spam']
             return enabled == '1';
         else:
-            print('it not there man')
             ref = db.reference(f'cogs/{ctx.guild.id}')
                 # Generate a reference to a location
             emp_ref = ref.update(
@@ -35,7 +33,8 @@ def cog_check():
                     'actions': '1',
                     'badping': '0',
                     'spam': '0',
-                    'callouts': '0'
+                    'callouts': '0',
+                    'giveaway' : '1'
                     }
                 )
             update_cogs_file()
