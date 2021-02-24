@@ -81,9 +81,9 @@ class giveaway(commands.Cog):
 
 
         IST = pytz.timezone('Asia/Kolkata')
-        gaw_embed = discord.Embed(title = f'🎉 GIVEAWAY 🎉' , description = f'`{prize_gaw}`\nReact with 🎉 to enter\nEnds at: `{str(datetime.now(IST) + timedelta(0,time_gaw_sec))[11:-13]} IST`\nNumber of Winners: `{no_of_winners}`', color = 0x71b4e3) #, description = f'Hosted by: {ctx.author.mention}'
+        gaw_embed = discord.Embed(title = f'🎉 GIVEAWAY 🎉' , description = f'`{prize_gaw}`\nReact with 🎉 to enter\nEnds at: `{str(datetime.now(IST) + timedelta(0,time_gaw_sec))[:-13]} IST`\nNumber of Winners: `{no_of_winners}`', color = 0x71b4e3) #, description = f'Hosted by: {ctx.author.mention}'
         #gaw_embed.add_field(name = 'Ends at' , value = f'{str(datetime.utcnow() + timedelta(0,time_gaw_sec))[11:-7]} UTC')
-        gaw_embed.set_footer(text = f'Hosted by {ctx.author} at {datetime.now(IST).strftime("%H:%M:%S")} IST')
+        gaw_embed.set_footer(text = f'Hosted by {ctx.author} at {datetime.now(IST).strftime("%d/%m/%Y %H:%M:%S")} IST')
         #PST = pytz.timezone('Etc/GMT-8')
 
         #gaw_embed.set_footer(text = f'{datetime.utcnow().strftime("%H:%M:%S")} UTC\n{datetime.now(PST).strftime("%H:%M:%S")} PST\n{datetime.now(IST).strftime("%H:%M:%S")} IST')
@@ -111,7 +111,7 @@ class giveaway(commands.Cog):
         await channel_gaw.send(embed = winnerEmbed)
 
         new_gaw_embed = discord.Embed(title = f'🎉 GIVEAWAY 🎉' , description = f'`{prize_gaw}`\nWinner(s): {winner_msg} \nNumber of Winners: `{no_of_winners}`', color = 0x71b4e3)
-        new_gaw_embed.set_footer(text = f'Hosted by {ctx.author} | Ended at {datetime.now(IST).strftime("%H:%M:%S")} IST')
+        new_gaw_embed.set_footer(text = f'Hosted by {ctx.author} | Ended at {datetime.now(IST).strftime("%d/%m/%Y %H:%M:%S")} IST')
         await gaw.edit(embed = new_gaw_embed)
 
 
