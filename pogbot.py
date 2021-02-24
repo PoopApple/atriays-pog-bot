@@ -158,6 +158,8 @@ async def _help(ctx):
         name="slap", value=f"slaps the user you mentioned. *Usage - {default_prefix[0]}slap @user*", inline=False)
     helpembed.add_field(
         name="avatar", value=f"Displays the avatar of the mentioned user. *Usage - {default_prefix[0]}av @user*", inline=False)
+    helpembed.add_field(
+        name="giveaway", value=f"Hosts a giveaway. *Usage - {default_prefix[0]}gaw @1s/m/h/d #channel `number of winners`*", inline=False)
     # await ctx.send(embed = helpembed)
     await ctx.author.send(embed=helpembed)
 
