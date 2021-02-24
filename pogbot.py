@@ -149,8 +149,6 @@ async def _help(ctx):
     helpembed.add_field(
         name="Ping", value=f"Shows the bot's ping. *Usage - {default_prefix[0]}Ping*", inline=False)
     helpembed.add_field(
-        name="adinub", value=f"Shows the Universal Truth", inline=False)
-    helpembed.add_field(
         name="8Ball", value=f"A general 8ball command. *Usage - {default_prefix[0]}8ball Am i pog? =>* Gives you a random answer.", inline=False)
     helpembed.add_field(
         name="pog", value=f"Tells you if the statement is pog or not. *Usage - {default_prefix[0]}pog u r a poopi*", inline=False)
@@ -160,6 +158,8 @@ async def _help(ctx):
         name="avatar", value=f"Displays the avatar of the mentioned user. *Usage - {default_prefix[0]}av @user*", inline=False)
     helpembed.add_field(
         name="giveaway", value=f"Hosts a giveaway. *Usage - {default_prefix[0]}gaw @1s/m/h/d #channel `number of winners`*", inline=False)
+    helpembed.add_field(
+        name="reroll", value=f"Rerolls winner(s) for a giveaway. *Usage - {default_prefix[0]}reroll `gaw id` `number of winners`*", inline=False)
     # await ctx.send(embed = helpembed)
     await ctx.author.send(embed=helpembed)
 

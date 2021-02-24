@@ -81,7 +81,7 @@ class giveaway(commands.Cog):
 
 
         IST = pytz.timezone('Asia/Kolkata')
-        gaw_embed = discord.Embed(title = f'`{prize_gaw}`' , description = f'React with 🎉 to enter\nEnds at: `{str(datetime.now(IST) + timedelta(0,time_gaw_sec))[11:-7]} IST`\nNumber of Winners: `{no_of_winners}`', color = 0x71b4e3) #, description = f'Hosted by: {ctx.author.mention}'
+        gaw_embed = discord.Embed(title = f'🎉 GIVEAWAY 🎉' , description = f'`{prize_gaw}`\nReact with 🎉 to enter\nEnds at: `{str(datetime.now(IST) + timedelta(0,time_gaw_sec))[11:-13]} IST`\nNumber of Winners: `{no_of_winners}`', color = 0x71b4e3) #, description = f'Hosted by: {ctx.author.mention}'
         #gaw_embed.add_field(name = 'Ends at' , value = f'{str(datetime.utcnow() + timedelta(0,time_gaw_sec))[11:-7]} UTC')
         gaw_embed.set_footer(text = f'Hosted by {ctx.author} at {datetime.now(IST).strftime("%H:%M:%S")} IST')
         #PST = pytz.timezone('Etc/GMT-8')
@@ -105,12 +105,12 @@ class giveaway(commands.Cog):
             winner_msg += f'{winners.mention} '
 
 
-        winnerEmbed = discord.Embed(title = f'`{prize_gaw}`' , color = 0x71b4e3)
+        winnerEmbed = discord.Embed(title ='🎉 GIVEAWAY WINNERS 🎉' ,description = f'`{prize_gaw}`' , color = 0x71b4e3)
         winnerEmbed.add_field(name = 'Winner(s):' , value = f'{winner_msg}', inline = False)
         winnerEmbed.add_field(name = 'Giveaway:' , value = f'[Click Here]({gaw.jump_url})', inline = False)
         await channel_gaw.send(embed = winnerEmbed)
 
-        new_gaw_embed = discord.Embed(title = f'`{prize_gaw}`' , description = f'Winner(s): {winner_msg} \nNumber of Winners: `{no_of_winners}`', color = 0x71b4e3)
+        new_gaw_embed = discord.Embed(title = f'🎉 GIVEAWAY 🎉' , description = f'`{prize_gaw}`\nWinner(s): {winner_msg} \nNumber of Winners: `{no_of_winners}`', color = 0x71b4e3)
         new_gaw_embed.set_footer(text = f'Hosted by {ctx.author} | Ended at {datetime.now(IST).strftime("%H:%M:%S")} IST')
         await gaw.edit(embed = new_gaw_embed)
 
@@ -131,7 +131,7 @@ class giveaway(commands.Cog):
             winner_msg += f'{winners.mention} '
 
 
-        winnerEmbed = discord.Embed(title = f'`Reroll`' , color = 0x71b4e3)
+        winnerEmbed = discord.Embed(title = f'🎉 GIVEAWAY REROLL 🎉' ,description = f'`{prize_gaw}``', color = 0x71b4e3)
         winnerEmbed.add_field(name = 'Winner(s):' , value = f'{winner_msg}', inline = False)
         winnerEmbed.add_field(name = 'Giveaway:' , value = f'[Click Here]({gaw_msg.jump_url})', inline = False)
         await ctx.send(embed = winnerEmbed)
