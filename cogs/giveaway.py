@@ -79,9 +79,10 @@ class giveaway(commands.Cog):
             await ctx.send('Invalid Time.')
             return
 
-        gaw_embed = discord.Embed(title = f'`{prize_gaw}`' , description = f'React with 🎉 to enter\nEnds at: `{str(datetime.utcnow() + timedelta(0,time_gaw_sec))[11:-7]} UTC`\nNumber of Winners: `{no_of_winners}`', color = 0x71b4e3) #, description = f'Hosted by: {ctx.author.mention}'
-        #gaw_embed.add_field(name = 'Ends at' , value = f'{str(datetime.utcnow() + timedelta(0,time_gaw_sec))[11:-7]} UTC')
+
         IST = pytz.timezone('Asia/Kolkata')
+        gaw_embed = discord.Embed(title = f'`{prize_gaw}`' , description = f'React with 🎉 to enter\nEnds at: `{str(datetime.now(IST) + timedelta(0,time_gaw_sec))[11:-7]} IST`\nNumber of Winners: `{no_of_winners}`', color = 0x71b4e3) #, description = f'Hosted by: {ctx.author.mention}'
+        #gaw_embed.add_field(name = 'Ends at' , value = f'{str(datetime.utcnow() + timedelta(0,time_gaw_sec))[11:-7]} UTC')
         gaw_embed.set_footer(text = f'Hosted by {ctx.author} at {datetime.now(IST).strftime("%H:%M:%S")} IST')
         #PST = pytz.timezone('Etc/GMT-8')
 
