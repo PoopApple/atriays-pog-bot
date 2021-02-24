@@ -99,7 +99,7 @@ class giveaway(commands.Cog):
 
         users = await gaw_msg.reactions[0].users().flatten()
         users.pop(0)
-        winner_list = random.choices(users , k = no_of_winners)
+        winner_list = random.sample(users , k = no_of_winners)
         winner_msg =''
         for winners in winner_list:
             winner_msg += f'{winners.mention} '
