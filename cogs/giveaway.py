@@ -52,6 +52,25 @@ def cog_check():
     return predicate
 
 
+def is_atriays():
+    def predicate(ctx):
+        return ctx.message.author.id == 543718305773387776
+    return commands.check(predicate);
+
+def is_mutant():
+    def predicate(ctx):
+        return ctx.message.author.id == 460335920260841482
+    return commands.check(predicate);
+
+def is_nerdy():
+    def predicate(ctx):
+        return ctx.message.author.id == 516173155216392193
+    return commands.check(predicate);
+
+def is_trimunati():
+    def predicate(ctx):
+        return (ctx.message.author.id == 516173155216392193 or 460335920260841482 or 543718305773387776)
+    return commands.check(predicate)
 
 
 
