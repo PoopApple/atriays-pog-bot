@@ -108,13 +108,15 @@ class giveaway(commands.Cog):
                     gaw_msg = await channel_gaw.fetch_message(msg_ids)
                     host_user = await self.client.fetch_user(self.gaws.get(msg_ids).get("host_id"))
 
-                    users = await gaw_msg.reactions[0].users().flatten()
-                    users.remove(self.client.user)
+                    winner_msg = "**NO WINNERS**"
+                    if self.gaws.get(msg_ids).get("num_of_winners") != "0":
+                        users = await gaw_msg.reactions[0].users().flatten()
+                        users.remove(self.client.user)
 
-                    winner_list = random.sample(users, k= int(self.gaws.get(msg_ids).get("num_of_winners")))
-                    winner_msg = ''
-                    for winners in winner_list:
-                        winner_msg += f'{winners.mention} '
+                        winner_list = random.sample(users, k= int(self.gaws.get(msg_ids).get("num_of_winners")))
+                        winner_msg = ''
+                        for winners in winner_list:
+                            winner_msg += f'{winners.mention} '
 
                     winnerEmbed = discord.Embed(
                         title='🎉 GIVEAWAY WINNERS 🎉', description=f'`{self.gaws.get(msg_ids).get("prize")}`', color=0x71b4e3)
@@ -161,13 +163,18 @@ class giveaway(commands.Cog):
             gaw_msg = await channel_gaw.fetch_message(gaw_id)
             host_user = await self.client.fetch_user(self.gaws.get(gaw_id).get("host_id"))
 
-            users = await gaw_msg.reactions[0].users().flatten()
-            users.remove(self.client.user)
 
-            winner_list = random.sample(users, k= int(self.gaws.get(gaw_id).get("num_of_winners")))
-            winner_msg = ''
-            for winners in winner_list:
-                winner_msg += f'{winners.mention} '
+
+            winner_msg = "**NO WINNERS**"
+            if self.gaws.get(gaw_id).get("num_of_winners") != '0':
+                users = await gaw_msg.reactions[0].users().flatten()
+                users.remove(self.client.user)
+
+                winner_list = random.sample(users, k= int(self.gaws.get(gaw_id).get("num_of_winners")))
+                winner_msg = ''
+                for winners in winner_list:
+                    winner_msg += f'{winners.mention} '
+
 
             winnerEmbed = discord.Embed(
                 title='🎉 GIVEAWAY WINNERS 🎉', description=f'`{self.gaws.get(gaw_id).get("prize")}`', color=0x71b4e3)
@@ -207,6 +214,9 @@ class giveaway(commands.Cog):
         else:
             await ctx.send('Invalid Time.')
             return
+
+        if no_of_winners < 0:
+            await ctx.send('Invalid Number of Winners')
 
         IST = pytz.timezone('Asia/Kolkata')
         # , description = f'Hosted by: {ctx.author.mention}'
