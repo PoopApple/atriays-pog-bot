@@ -83,7 +83,7 @@ class actions(commands.Cog):
     async def repeat(self,ctx, numrepeat=2, *, repeatthis):
         if (numrepeat >= 1 and numrepeat <= 30):
             for numrepeat in range(1, numrepeat+1):
-                await ctx.send(repeatthis)
+                await ctx.send(f"```{repeatthis}```")
                 numrepeat = numrepeat - 1
 
 

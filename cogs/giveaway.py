@@ -99,27 +99,28 @@ class giveaway(commands.Cog):
 
         if self.gaws != {}:
             #print(self.gaws)
-            for msg_ids in self.gaws:
-                #print(f"time now `{str(datetime.now(IST))[:-16]}`  time gaw `{str(self.gaws.get(msg_ids).get('time'))[:-3]}`")
-                if (str(datetime.now(IST))[:-16] == str(self.gaws.get(msg_ids).get("time"))[:-3]):
+            gaw_dict = self.gaws
+            for msg_ids in gaw_dict:
+                #print(f"time now `{str(datetime.now(IST))[:-16]}`  time gaw `{str(gaw_dict.get(msg_ids).get('time'))[:-3]}`")
+                if (str(datetime.now(IST))[:-16] == str(gaw_dict.get(msg_ids).get("time"))[:-3]):
                     #print('equal')
 
-                    channel_gaw = await self.client.fetch_channel(self.gaws.get(msg_ids).get("channel_id"))
+                    channel_gaw = await self.client.fetch_channel(gaw_dict.get(msg_ids).get("channel_id"))
                     gaw_msg = await channel_gaw.fetch_message(msg_ids)
-                    host_user = await self.client.fetch_user(self.gaws.get(msg_ids).get("host_id"))
+                    host_user = await self.client.fetch_user(gaw_dict.get(msg_ids).get("host_id"))
 
                     winner_msg = "**NO WINNERS**"
-                    if self.gaws.get(msg_ids).get("num_of_winners") != "0":
+                    if gaw_dict.get(msg_ids).get("num_of_winners") != "0":
                         users = await gaw_msg.reactions[0].users().flatten()
                         users.remove(self.client.user)
 
-                        winner_list = random.sample(users, k= int(self.gaws.get(msg_ids).get("num_of_winners")))
+                        winner_list = random.sample(users, k= int(gaw_dict.get(msg_ids).get("num_of_winners")))
                         winner_msg = ''
                         for winners in winner_list:
                             winner_msg += f'{winners.mention} '
 
                     winnerEmbed = discord.Embed(
-                        title='🎉 GIVEAWAY WINNERS 🎉', description=f'`{self.gaws.get(msg_ids).get("prize")}`', color=0x71b4e3)
+                        title='🎉 GIVEAWAY WINNERS 🎉', description=f'`{gaw_dict.get(msg_ids).get("prize")}`', color=0x71b4e3)
                     winnerEmbed.add_field(
                         name='Winner(s):', value=f'{winner_msg}', inline=False)
                     winnerEmbed.add_field(
@@ -127,11 +128,17 @@ class giveaway(commands.Cog):
                     await channel_gaw.send(embed=winnerEmbed)
 
                     new_gaw_embed = discord.Embed(
-                        title=f'🎉 GIVEAWAY 🎉', description=f'`{self.gaws.get(msg_ids).get("prize")}`\nWinner(s): {winner_msg} \nNumber of Winner(s): `{self.gaws.get(msg_ids).get("num_of_winners")}`', color=0x71b4e3)
+                        title=f'🎉 GIVEAWAY 🎉', description=f'`{gaw_dict.get(msg_ids).get("prize")}`\nWinner(s): {winner_msg} \nNumber of Winner(s): `{gaw_dict.get(msg_ids).get("num_of_winners")}`', color=0x71b4e3)
                     new_gaw_embed.set_footer(
                         text=f'Hosted by {host_user} | Ended at {datetime.now(IST).strftime("%d-%m-%Y %H:%M:%S")} IST')
                     await gaw_msg.edit(embed=new_gaw_embed)
-                    self.gaws.pop(msg_ids)
+
+                    try:
+                        self.gaws.pop(msg_ids)
+                    except:
+                        asyncio.sleep(3)
+                        self.gaws.pop(msg_ids)
+
 
     """@bg_gaw_loop.before_loop
     async def before_bg_gaw_loop(self):
@@ -143,41 +150,44 @@ class giveaway(commands.Cog):
         print('giveaway cog is working')
         self.bg_gaw_loop.start()
 
-
-    '''@commands.command()
+    @commands.check_any(is_atriays() ,is_mutant() , is_nerdy() ,is_trimunati())
+    @commands.command()
     async def gawcheck(self , ctx):
-        await ctx.send(self.gaws)'''
+        await ctx.send(self.gaws)
+
+
     @commands.check(cog_check())
     @commands.check_any(is_atriays() ,is_mutant() , is_nerdy() , commands.has_permissions(kick_members=True),is_trimunati())
     @commands.command(aliases=["stopgiveaway" , "endgaw" , "endgiveaway"])
     async def stopgaw(self , ctx , gaw_id : str):
         #print(type(gaw_id))
-        if self.gaws.get(f"{gaw_id}") == None:
+        gaw_dict = self.gaws
+        if gaw_dict.get(f"{gaw_id}") == None:
             await ctx.send(f"No current Giveaway with MessageID `{gaw_id}`")
         else:
-            await ctx.send(f'Ended Giveaway with MessageID `{gaw_id}`\nPrize => {self.gaws.get(gaw_id).get("prize")} ')
+            await ctx.send(f'Ended Giveaway with MessageID `{gaw_id}`\nPrize => {gaw_dict.get(gaw_id).get("prize")} ')
 
             IST = pytz.timezone('Asia/Kolkata')
 
-            channel_gaw = await self.client.fetch_channel(self.gaws.get(gaw_id).get("channel_id"))
+            channel_gaw = await self.client.fetch_channel(gaw_dict.get(gaw_id).get("channel_id"))
             gaw_msg = await channel_gaw.fetch_message(gaw_id)
-            host_user = await self.client.fetch_user(self.gaws.get(gaw_id).get("host_id"))
+            host_user = await self.client.fetch_user(gaw_dict.get(gaw_id).get("host_id"))
 
 
 
             winner_msg = "**NO WINNERS**"
-            if self.gaws.get(gaw_id).get("num_of_winners") != '0':
+            if gaw_dict.get(gaw_id).get("num_of_winners") != '0':
                 users = await gaw_msg.reactions[0].users().flatten()
                 users.remove(self.client.user)
 
-                winner_list = random.sample(users, k= int(self.gaws.get(gaw_id).get("num_of_winners")))
+                winner_list = random.sample(users, k= int(gaw_dict.get(gaw_id).get("num_of_winners")))
                 winner_msg = ''
                 for winners in winner_list:
                     winner_msg += f'{winners.mention} '
 
 
             winnerEmbed = discord.Embed(
-                title='🎉 GIVEAWAY WINNERS 🎉', description=f'`{self.gaws.get(gaw_id).get("prize")}`', color=0x71b4e3)
+                title='🎉 GIVEAWAY WINNERS 🎉', description=f'`{gaw_dict.get(gaw_id).get("prize")}`', color=0x71b4e3)
             winnerEmbed.add_field(
                 name='Winner(s):', value=f'{winner_msg}', inline=False)
             winnerEmbed.add_field(
@@ -185,19 +195,23 @@ class giveaway(commands.Cog):
             await channel_gaw.send(embed=winnerEmbed)
 
             new_gaw_embed = discord.Embed(
-                title=f'🎉 GIVEAWAY 🎉', description=f'`{self.gaws.get(gaw_id).get("prize")}`\nWinner(s): {winner_msg} \nNumber of Winner(s): `{self.gaws.get(gaw_id).get("num_of_winners")}`', color=0x71b4e3)
+                title=f'🎉 GIVEAWAY 🎉', description=f'`{gaw_dict.get(gaw_id).get("prize")}`\nWinner(s): {winner_msg} \nNumber of Winner(s): `{gaw_dict.get(gaw_id).get("num_of_winners")}`', color=0x71b4e3)
             new_gaw_embed.set_footer(
                 text=f'Hosted by {host_user} | Ended at {datetime.now(IST).strftime("%d-%m-%Y %H:%M:%S")} IST')
             await gaw_msg.edit(embed=new_gaw_embed)
 
 
-            self.gaws.pop(f"{gaw_id}")
+            try:
+                self.gaws.pop(f"{gaw_id}")
+            except:
+                asyncio.sleep(3)
+                self.gaws.pop(f"{gaw_id}")
 
 
     @commands.check(cog_check())
     @commands.check_any(is_atriays() ,is_mutant() , is_nerdy() , commands.has_permissions(kick_members=True),is_trimunati())
     @commands.command(aliases=['gaw'])
-    async def giveaway(self, ctx, time_gaw_raw, channel_gaw: discord.TextChannel, no_of_winners: int = 1, *, prize_gaw: str):
+    async def giveaway(self, ctx, time_gaw_raw, channel_gaw, no_of_winners: int = 1, *, prize_gaw: str):
 
         # time => 10000s , 1000m , 02299h , 22d
 
@@ -217,6 +231,11 @@ class giveaway(commands.Cog):
 
         if no_of_winners < 0:
             await ctx.send('Invalid Number of Winners')
+            return
+
+        if (type(channel_gaw) != discord.TextChannel):
+            await ctx.send(f'`Invalid Channel`\nPlease mention the channel [eg. <#{ctx.channel.id}>]')
+            return
 
         IST = pytz.timezone('Asia/Kolkata')
         # , description = f'Hosted by: {ctx.author.mention}'
