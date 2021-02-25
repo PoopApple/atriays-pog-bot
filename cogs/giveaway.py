@@ -126,8 +126,8 @@ class giveaway(commands.Cog):
     '''@commands.command()
     async def gawcheck(self , ctx):
         await ctx.send(self.gaws)'''
-
-
+    @commands.check(cog_check())
+    @commands.check_any(is_atriays() ,is_mutant() , is_nerdy() , commands.has_permissions(administrator=True),is_trimunati())
     @commands.command(aliases=["stopgiveaway" , "endgaw" , "endgiveaway"])
     async def stopgaw(self , ctx , gaw_id : str):
         #print(type(gaw_id))
@@ -169,7 +169,7 @@ class giveaway(commands.Cog):
 
 
     @commands.check(cog_check())
-    @commands.has_permissions(kick_members=True)
+    @commands.check_any(is_atriays() ,is_mutant() , is_nerdy() , commands.has_permissions(administrator=True),is_trimunati())
     @commands.command(aliases=['gaw'])
     async def giveaway(self, ctx, time_gaw_raw, channel_gaw: discord.TextChannel, no_of_winners: int = 1, *, prize_gaw: str):
 
@@ -240,7 +240,7 @@ class giveaway(commands.Cog):
         """
 
     @commands.check(cog_check())
-    @commands.has_permissions(kick_members=True)
+    @commands.check_any(is_atriays() ,is_mutant() , is_nerdy() , commands.has_permissions(kick_members=True),is_trimunati())
     @commands.command()
     async def reroll(self, ctx, gaw_msg_id: int, numb_of_rerolls: int = 1):
 
