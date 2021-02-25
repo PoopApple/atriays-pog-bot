@@ -368,7 +368,6 @@ async def avatar(ctx, user : discord.Member = None):
 
 
 
-
 # on ready - checks if the bot is running
 @client.event
 async def on_ready():
@@ -377,6 +376,7 @@ async def on_ready():
     print('------')
     await client.change_presence(status=discord.Status.idle, activity=discord.Game("Atriays's Pog Bot"))
     update_cogs_file()
+
 
 
 '''@client.event
