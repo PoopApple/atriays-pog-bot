@@ -211,7 +211,7 @@ class giveaway(commands.Cog):
     @commands.check(cog_check())
     @commands.check_any(is_atriays() ,is_mutant() , is_nerdy() , commands.has_permissions(kick_members=True),is_trimunati())
     @commands.command(aliases=['gaw'])
-    async def giveaway(self, ctx, time_gaw_raw, channel_gaw, no_of_winners: int = 1, *, prize_gaw: str):
+    async def giveaway(self, ctx, time_gaw_raw, channel_gaw : discord.TextChannel, no_of_winners: int = 1, *, prize_gaw: str):
 
         # time => 10000s , 1000m , 02299h , 22d
 
@@ -233,9 +233,7 @@ class giveaway(commands.Cog):
             await ctx.send('Invalid Number of Winners')
             return
 
-        if (type(channel_gaw) != discord.TextChannel):
-            await ctx.send(f'`Invalid Channel`\nPlease mention the channel [eg. <#{ctx.channel.id}>]')
-            return
+
 
         IST = pytz.timezone('Asia/Kolkata')
         # , description = f'Hosted by: {ctx.author.mention}'
