@@ -12,7 +12,7 @@ import pytz
 import time
 
 
-
+#NOTE add sleep(1) after gaw-dict = self.gaws
 
 
 
