@@ -4,7 +4,7 @@
         "badping": "0",
         "callouts": "0",
         "giveaway": "1",
-        "spam": "0"
+        "spam": "1"
     },
     "735754185479422022": {
         "actions": "1",
@@ -27,7 +27,28 @@
         "giveaway": "1",
         "spam": "0"
     },
+    "790214397414866954": {
+        "actions": "1",
+        "badping": "0",
+        "callouts": "0",
+        "giveaway": "1",
+        "spam": "0"
+    },
     "792025916418949130": {
+        "actions": "1",
+        "badping": "0",
+        "callouts": "0",
+        "giveaway": "1",
+        "spam": "0"
+    },
+    "793807037111992332": {
+        "actions": "1",
+        "badping": "0",
+        "callouts": "0",
+        "giveaway": "1",
+        "spam": "0"
+    },
+    "804336887740366859": {
         "actions": "1",
         "badping": "0",
         "callouts": "0",
