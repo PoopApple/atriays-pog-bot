@@ -12,7 +12,8 @@ import pytz
 import time
 
 
-
+#NOTE add sleep(1) after gaw-dict = self.gaws
+#NOTE anotyer dic for times . Dict = {'18:02'  : msg ids using commad}
 
 
 
