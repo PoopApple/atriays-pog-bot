@@ -158,6 +158,15 @@ class giveaway(commands.Cog):
         await ctx.send(self.gaws)
         await ctx.send(self.gaw_tasks)
 
+    def pop_gaw(guild_id , msg_id):
+        try:
+            self.gaws.get(f"{guild_id}").pop(f"{msg_id}")
+            self.gaw_tasks.pop(msg_id)
+        except:
+            self.pop_gaw(guild_id , msg_id)
+
+
+
 
     @commands.check(cog_check())
     @commands.check_any(is_atriays() ,is_mutant() , is_nerdy() , commands.has_permissions(kick_members=True),is_trimunati())
@@ -211,17 +220,7 @@ class giveaway(commands.Cog):
                 text=f'Hosted by {host_user} | Ended at {datetime.now(self.IST).strftime("%d-%m-%Y %H:%M:%S")} IST')
             await gaw_msg.edit(embed=new_gaw_embed)
 
-
-            try:
-                self.gaws.get(f"{guild_id}").pop(f"{gaw_msg_id}")
-                self.gaw_tasks.pop(gaw_msg_id)
-            except:
-                try:
-                    await asyncio.sleep(1)
-                    self.gaws.get(f"{guild_id}").pop(f"{gaw_msg_id}")
-                    self.gaw_tasks.pop(gaw_msg_id)
-                except:
-                    pass
+            self.pop_gaw(guild_id , gaw_msg_id)
 
 
 #######################################################################################################################################################
@@ -232,14 +231,17 @@ class giveaway(commands.Cog):
     async def gaw_proccess_start(self , gaw_msg_id , end_time_as_object , channel_id , host_user_id , num_of_winners , prize , guild_id ):
 
 
-        print(end_time_as_object)
+        #print(end_time_as_object)
 
         channel_gaw = await self.client.fetch_channel(channel_id)
         gaw_msg = await channel_gaw.fetch_message(gaw_msg_id)
         host_user = await self.client.fetch_user(host_user_id)
 
         while(end_time_as_object >= datetime.now(self.IST)):
-            print(str(end_time_as_object - datetime.now(self.IST))[:-7])
+            #print(str(end_time_as_object - datetime.now(self.IST))[:-7])
+
+
+
 
             gaw_embed = discord.Embed(
                 title=f'🎉 GIVEAWAY 🎉', description=f'`{prize}`\nReact with 🎉 to enter\nEnds at: `{str(end_time_as_object)[:-13]} IST`\nTime Remaining: `{str(end_time_as_object - datetime.now(self.IST))[:-7]}`\nNumber of Winners: `{num_of_winners}`', color=0x71b4e3)
@@ -257,7 +259,7 @@ class giveaway(commands.Cog):
         if (num_of_winners != 0):
 
             users = await gaw_msg.reactions[0].users().flatten()
-            print(users)
+            #print(users)
             try:
                 users.remove(self.client.user)
             except:
@@ -283,13 +285,17 @@ class giveaway(commands.Cog):
             text=f'Hosted by {host_user} | Ended at {datetime.now(self.IST).strftime("%d-%m-%Y %H:%M:%S")} IST')
         await gaw_msg.edit(embed=new_gaw_embed)
 
-        try:
+
+
+
+        self.pop_gaw(guild_id , gaw_msg_id)
+        '''try:
             self.gaws.get(f"{guild_id}").pop(f"{gaw_msg_id}")
             self.gaw_tasks.pop(gaw_msg_id)
         except:
             await asyncio.sleep(1)
             self.gaws.get(f"{guild_id}").pop(f"{gaw_msg_id}")
-            self.gaw_tasks.pop(gaw_msg_id)
+            self.gaw_tasks.pop(gaw_msg_id)'''
 
 
 
@@ -398,11 +404,18 @@ class giveaway(commands.Cog):
         gaw_msg = await ctx.fetch_message(gaw_msg_id)
 
         users = await gaw_msg.reactions[0].users().flatten()
-        users.pop(0)
-        winner_list = random.choices(users, k=numb_of_rerolls)
-        winner_msg = ''
-        for winners in winner_list:
-            winner_msg += f'{winners.mention} '
+        try:
+            users.pop(self.user.client)
+        except:
+            pass
+
+        winner_list = random.sample(users, k=numb_of_rerolls)
+        if len(winner_list) <= 0:
+            winner_msg = ''
+
+        else:
+            for winners in winner_list:
+                winner_msg += f'{winners.mention} '
 
         winnerEmbed = discord.Embed(
             title=f'🎉 GIVEAWAY REROLL 🎉', color=0x71b4e3)
