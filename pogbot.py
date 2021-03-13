@@ -91,7 +91,7 @@ def get_prefix(client,message):
         return [f'{default_prefix[0]}','<@!779225458159386624> ']
     else:
         guild_prefix = prefix[str(message.guild.id)]
-        return [guild_prefix , '<@!779225458159386624> ']
+        return [guild_prefix , f'<@!cliebt.id> ']
 
 
 #---------------------------------------------------------------------------------#
@@ -271,7 +271,7 @@ async def _8ball(ctx, *, question):
 
 
 @client.command()
-@commands.check(is_atriays() or is_mutant() or is_nerdy())
+@commands.check_any(is_atriays() , is_mutant() , is_nerdy())
 async def guilds(ctx):
 
     guild_embed = discord.Embed(title = "Atriays's Pog Bot is in these Guilds: ", color = 0xFF2424)
@@ -288,7 +288,7 @@ async def guilds(ctx):
 
 
 @client.command()
-@commands.check(is_atriays() or is_mutant() or is_nerdy())
+@commands.check_any(is_atriays() , is_mutant() , is_nerdy())
 async def createinvite(ctx,id : int = None ):
 
     if id == None:
