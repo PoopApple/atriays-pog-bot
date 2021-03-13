@@ -411,9 +411,10 @@ class giveaway(commands.Cog):
 
         winner_list = random.sample(users, k=numb_of_rerolls)
         if len(winner_list) <= 0:
-            winner_msg = ''
+            winner_msg = '**NO WINNERS**'
 
         else:
+            winner_msg = ''
             for winners in winner_list:
                 winner_msg += f'{winners.mention} '
 
