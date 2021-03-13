@@ -158,7 +158,7 @@ class giveaway(commands.Cog):
         await ctx.send(self.gaws)
         await ctx.send(self.gaw_tasks)
 
-    def pop_gaw(guild_id , msg_id):
+    def pop_gaw(self , guild_id , msg_id):
         try:
             self.gaws.get(f"{guild_id}").pop(f"{msg_id}")
             self.gaw_tasks.pop(msg_id)
@@ -430,5 +430,5 @@ class giveaway(commands.Cog):
 
 
 def setup(client):
-#    client.loop.create_task(gawclass.bg_gaw_loop())
+#    client.loop.create_    task(gawclass.bg_gaw_loop())
     client.add_cog(giveaway(client))
